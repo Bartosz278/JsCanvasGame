@@ -1,13 +1,5 @@
 export class Player {
-  constructor(
-    ctx,
-    img,
-    canvas,
-    isCollidingWithObstacle,
-    interactiveObstacles,
-    showCollectInfo,
-    collectItem,
-  ) {
+  constructor(ctx,img,canvas,isCollidingWithObstacle,interactiveObstacles,showCollectInfo,collectItem) {
     this.ctx = ctx;
     this.img = img;
     this.canvas = canvas;

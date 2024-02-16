@@ -1,15 +1,7 @@
-import { Player } from "./player.js";
-import {
-  interactiveObstacles,
-  createObstacles,
-  drawObstacles,
-} from "./objects.js";
-import { collectItem, updateInventory } from "./inventory.js";
-import {
-  checkCollectibleProximity,
-  showCollectInfo,
-  isCollidingWithObstacle,
-} from "./utils.js";
+import { Player } from "./modules/player.js";
+import {interactiveObstacles,createObstacles,drawObstacles} from "./modules/objects.js";
+import { collectItem, updateInventory } from "./modules/inventory.js";
+import {checkCollectibleProximity,showCollectInfo,isCollidingWithObstacle} from "./modules/utils.js";
 
 let canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");

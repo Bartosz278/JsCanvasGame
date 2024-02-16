@@ -1,5 +1,5 @@
-import { interactiveObstacles } from "./objects.js";
-import { inventoryEl } from "./game.js";
+import { interactiveObstacles } from "/modules/objects.js";
+import { inventoryEl } from "/game.js";
 
 export const inventory = Array(10).fill(null);
 export function collectItem(index) {
