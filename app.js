@@ -1,8 +1,9 @@
+
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 const infoBox = document.getElementById("infoBox");
 const inventoryEl = document.getElementById("inventory");
-var backgroundImage = new Image();
+const backgroundImage = new Image();
 backgroundImage.src = "assets/grass.png";
 backgroundImage.onload = function () {
   ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
@@ -104,30 +105,7 @@ function updateInventory() {
     inventoryEl.appendChild(slot);
   });
 }
-function showCollectInfo(show, x, y) {
-  const infoBox = document.getElementById("collectInfo");
-  if (show) {
-    infoBox.style.display = "block";
-    infoBox.style.left = x + "px";
-    infoBox.style.top = y + "px";
-  } else {
-    infoBox.style.display = "none";
-  }
-}
-function checkCollision(newX, newY) {
-  for (let obstacle of interactiveObstacles) {
-    if (
-      newX < obstacle.x + obstacle.size &&
-      newX + player.width > obstacle.x &&
-      newY < obstacle.y + obstacle.size &&
-      newY + player.height > obstacle.y
-    ) {
-      return true;
-    }
-  }
 
-  return false;
-}
 function isCollidingWithObstacle(newX, newY) {
   return interactiveObstacles.some((obstacle) => {
     return (
@@ -138,21 +116,16 @@ function isCollidingWithObstacle(newX, newY) {
     );
   });
 }
-function checkCollectibleProximity() {
-  let isNearCollectible = false;
-  for (let i = 0; i < interactiveObstacles.length; i++) {
-    let obstacle = interactiveObstacles[i];
-    let distance = Math.sqrt(
-      (player.x - obstacle.x) ** 2 + (player.y - obstacle.y) ** 2,
-    );
-    if (distance < 50) {
-      showCollectInfo(true, player.x + 20, player.y - 20);
-      isNearCollectible = true;
-      break;
-    }
-  }
-  if (!isNearCollectible) {
-    showCollectInfo(false);
+
+function showCollectInfo(show, text, x, y) {
+  let infoBox = document.getElementById('collectInfo');
+  if (show) {
+      infoBox.textContent = text; 
+      infoBox.style.display = 'block';
+      infoBox.style.left = `${x}px`;
+      infoBox.style.top = `${y}px`;
+  } else {
+      infoBox.style.display = 'none';
   }
 }
 
@@ -179,11 +152,12 @@ document.addEventListener("keydown", function (event) {
       newX += player.speed;
       break;
   }
-
-  if (!isCollidingWithObstacle(newX, newY)) {
-    player.x = newX;
     player.y = newY;
-  }
+    player.x = newX;
+  // if (!isCollidingWithObstacle(newX, newY)) {
+  //   player.x = newX;
+  //   player.y = newY;
+  // }
 
   if (event.key === " " && !isCollecting) {
     for (let i = interactiveObstacles.length - 1; i >= 0; i--) {
@@ -213,28 +187,15 @@ function checkCollectibleProximity() {
       (player.x - obstacle.x) ** 2 + (player.y - obstacle.y) ** 2,
     );
     if (distance < 50 ) {
-      // Zakładając, że "50" to zasięg zbierania
-    //   showCollectInfo(true,"space to collect", player.x + 20, player.y - 20); // Pokaż okienko obok gracza
       isNearCollectible = true;
       break;
     }
   }
   if (!isNearCollectible) {
-    showCollectInfo(false); // Ukryj okienko, gdy gracz jest daleko od przedmiotów
+    showCollectInfo(false); 
   }
 }
 
-function showCollectInfo(show, text, x, y) {
-    let infoBox = document.getElementById('collectInfo');
-    if (show) {
-        infoBox.textContent = text; 
-        infoBox.style.display = 'block';
-        infoBox.style.left = `${x}px`;
-        infoBox.style.top = `${y}px`;
-    } else {
-        infoBox.style.display = 'none';
-    }
-}
 createObstacles();
 updateInventory();
 updateGame();
