@@ -1,7 +1,15 @@
-import { Player } from './player.js';
-import { interactiveObstacles, createObstacles, drawObstacles } from './objects.js';
-import { collectItem, updateInventory } from './inventory.js';
-import { checkCollectibleProximity,  showCollectInfo } from './utils.js';
+import { Player } from "./player.js";
+import {
+  interactiveObstacles,
+  createObstacles,
+  drawObstacles,
+} from "./objects.js";
+import { collectItem, updateInventory } from "./inventory.js";
+import {
+  checkCollectibleProximity,
+  showCollectInfo,
+  isCollidingWithObstacle,
+} from "./utils.js";
 
 let canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
@@ -18,7 +26,15 @@ canvas.height = window.innerHeight * 0.75;
 const playerImg = new Image();
 playerImg.src = "assets/character.png";
 
-let player = new Player(ctx, playerImg, canvas,  interactiveObstacles, showCollectInfo, collectItem);
+let player = new Player(
+  ctx,
+  playerImg,
+  canvas,
+  isCollidingWithObstacle,
+  interactiveObstacles,
+  showCollectInfo,
+  collectItem,
+);
 
 const treeImg = new Image();
 treeImg.src = "assets/tree.webp";
@@ -30,17 +46,14 @@ function clearCanvas() {
 function updateGame() {
   clearCanvas();
   player.drawPlayer();
-  drawObstacles(ctx,treeImg);
+  drawObstacles(ctx, treeImg);
   checkCollectibleProximity(interactiveObstacles, player);
   requestAnimationFrame(updateGame);
 }
 
-document.addEventListener("keydown", (event)=>{
+document.addEventListener("keydown", (event) => {
   player.move(event);
-})
-  
-
-
+});
 
 createObstacles();
 updateInventory();
