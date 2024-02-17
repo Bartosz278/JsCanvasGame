@@ -1,6 +1,12 @@
-const interactiveObstacles = [];
+const interactiveObstacles: any[] = [];
 
-export function showCollectInfo(elementId, show, text, x, y) {
+export function showCollectInfo(
+  elementId: string,
+  show: boolean,
+  text: string,
+  x: number,
+  y: number
+): void {
   let infoBox = document.getElementById(elementId);
   if (show) {
     infoBox.textContent = text;
@@ -12,7 +18,11 @@ export function showCollectInfo(elementId, show, text, x, y) {
   }
 }
 
-export function isCollidingWithObstacle(interactiveObstacles, newX, newY) {
+export function isCollidingWithObstacle(
+  interactiveObstacles: any[],
+  newX: number,
+  newY: number
+): boolean {
   return interactiveObstacles.some((obstacle) => {
     return (
       newX < obstacle.x + obstacle.size &&
@@ -23,11 +33,14 @@ export function isCollidingWithObstacle(interactiveObstacles, newX, newY) {
   });
 }
 
-export function checkCollectibleProximity(interactiveObstacles, player) {
+export function checkCollectibleProximity(
+  interactiveObstacles: any[],
+  player: any
+): void {
   let isNearCollectible = false;
   interactiveObstacles.forEach((obstacle) => {
     let distance = Math.sqrt(
-      (player.x - obstacle.x) ** 2 + (player.y - obstacle.y) ** 2,
+      (player.x - obstacle.x) ** 2 + (player.y - obstacle.y) ** 2
     );
     if (distance < 50) {
       // collect range
