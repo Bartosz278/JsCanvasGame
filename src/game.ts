@@ -15,7 +15,7 @@ backgroundImage.onload = function () {
 };
 
 canvas.width = window.innerWidth * 0.9;
-canvas.height = window.innerHeight * 0.75;
+canvas.height = window.innerHeight * 0.85;
 const playerImg: HTMLImageElement = new Image();
 playerImg.src = "assets/character.png";
 
@@ -29,8 +29,6 @@ let player: Player = new Player(
   collectItem,
 );
 
-let tree = blocks[0].image.src = `assets/${blocks[0].name}.webp`
-let stone =blocks[1].image.src = `assets/${blocks[1].name}.png`
 function clearCanvas(): void {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 }

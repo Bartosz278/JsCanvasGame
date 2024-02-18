@@ -1,25 +1,9 @@
 export const interactiveObstacles = [];
 import { blocks } from './blocks.js';
-// export function createObstacles(canvas: HTMLCanvasElement, quantity:number, block: Block): void {
-//   for (let i: number = 0; i < quantity; i++) {
-//     const obstacle: { x: number, y: number, size: number, digTime: number, interactive: boolean, color: string, count: number } = {
-//       x: Math.random() * (window.innerWidth * 0.9 - 20),
-//       y: Math.random() * (window.innerHeight * 0.75 - 20),
-//       size: 40,
-//       digTime: block.diggingTime,
-//       interactive: block.interactive,
-//       color: "",
-//       count: 0,
-//     };
-//     interactiveObstacles.push(obstacle);
-//   }
-// }
 export function createObstacles(canvas, quantity) {
     for (let i = 0; i < quantity; i++) {
-        // Losowanie liczby od 0 do 99
         const randomNumber = Math.floor(Math.random() * 100);
         let chosenBlock;
-        // Wybierz blok na podstawie losowej liczby
         let accumulatedSpawnChance = 0;
         for (const block of blocks) {
             accumulatedSpawnChance += block.spawnChance;
@@ -36,7 +20,6 @@ export function createObstacles(canvas, quantity) {
                 size: 40,
                 digTime: chosenBlock.diggingTime,
                 interactive: chosenBlock.interactive,
-                color: "",
                 count: 0,
                 image: new Image(),
             };

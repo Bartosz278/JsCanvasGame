@@ -2,10 +2,10 @@ import { interactiveObstacles } from "./objects.js";
 import { inventoryEl } from "./game.js";
 export const inventory = Array(10).fill(null);
 export function collectItem(index) {
-    const item = interactiveObstacles.splice(index, 1)[0];
+    const item = Object.assign({}, interactiveObstacles.splice(index, 1)[0]);
     let added = false;
     for (let i = 0; i < inventory.length; i++) {
-        if (inventory[i]) {
+        if (inventory[i] && inventory[i].name == item.name) {
             inventory[i].count++;
             added = true;
             break;
@@ -31,7 +31,7 @@ export function updateInventory() {
             itemCount.className = "itemCount";
             itemCount.textContent = item.count.toString();
             slot.appendChild(itemCount);
-            slot.style.backgroundImage = "url('assets/log.png')";
+            slot.style.backgroundImage = `url("assets/eqIcons/${item.name}Eq.png")`;
         }
         inventoryEl.appendChild(slot);
     });
