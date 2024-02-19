@@ -1,3 +1,5 @@
+import { Player } from "./player";
+
 const interactiveObstacles: any[] = [];
 
 export function showCollectInfo(
@@ -43,10 +45,10 @@ export function checkCollectibleProximity(
       (player.x - obstacle.x) ** 2 + (player.y - obstacle.y) ** 2
     );
     if (distance < 50) {
-      // collect range
       isNearCollectible = true;
     }
   });
   if (!isNearCollectible) {
   }
 }
+

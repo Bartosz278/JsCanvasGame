@@ -35,15 +35,24 @@ function clearCanvas(): void {
 
 function updateGame(): void {
   clearCanvas();
+  player.move(keysPressed);
   player.drawPlayer();
+  // player.showBuildRange();
   drawObstacles(ctx);
   checkCollectibleProximity(interactiveObstacles, player);
   requestAnimationFrame(updateGame);
+  
 }
 
-document.addEventListener("keydown", (event: KeyboardEvent) => {
-  player.move(event);
-});
+let keysPressed = {};
+document.addEventListener("keypress",(event:KeyboardEvent)=>{
+  keysPressed[event.key] = true;
+  player.showBuildRange();
+})
+document.addEventListener("keyup",(event:KeyboardEvent)=>{
+  delete keysPressed[event.key];
+  
+})
 
 createObstacles(canvas,15);
 updateInventory();

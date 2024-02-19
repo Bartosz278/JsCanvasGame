@@ -7,42 +7,44 @@ export class Player {
         this.interactiveObstacles = interactiveObstacles;
         this.showCollectInfo = showCollectInfo;
         this.collectItem = collectItem;
-        this.x = canvas.width / 2 - 15;
-        this.y = canvas.height / 2 - 15;
+        this.x = canvas.width / 2;
+        this.y = canvas.height / 2;
         this.width = 30;
         this.height = 30;
-        this.speed = 8;
+        this.speed = 2.2;
         this.isCollecting = false;
     }
     drawPlayer() {
         this.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
-    move(event) {
+    showBuildRange() {
+        this.ctx.beginPath();
+        this.ctx.arc(this.x + 15, this.y + 15, 50, 0, 2 * Math.PI);
+        this.ctx.stroke();
+    }
+    move(keysPressed) {
         let newX = this.x;
         let newY = this.y;
-        switch (event.key) {
-            case "w":
-            case "ArrowUp":
-                newY -= this.speed;
-                break;
-            case "s":
-            case "ArrowDown":
-                newY += this.speed;
-                break;
-            case "a":
-            case "ArrowLeft":
-                newX -= this.speed;
-                break;
-            case "d":
-            case "ArrowRight":
-                newX += this.speed;
-                break;
+        if (keysPressed["w"]) {
+            newY -= this.speed;
+        }
+        if (keysPressed["s"]) {
+            newY += this.speed;
+        }
+        if (keysPressed["a"]) {
+            newX -= this.speed;
+        }
+        if (keysPressed["d"]) {
+            newX += this.speed;
+        }
+        if (keysPressed['g']) {
+            this.showBuildRange();
         }
         if (!this.isCollidingWithObstacle(this.interactiveObstacles, newX, newY)) {
             this.x = newX;
             this.y = newY;
         }
-        if (event.key === " " && !this.isCollecting) {
+        if (keysPressed[' '] && !this.isCollecting) {
             this.tryCollecting();
         }
     }

@@ -24,7 +24,6 @@ export function checkCollectibleProximity(interactiveObstacles, player) {
     interactiveObstacles.forEach((obstacle) => {
         let distance = Math.sqrt(Math.pow((player.x - obstacle.x), 2) + Math.pow((player.y - obstacle.y), 2));
         if (distance < 50) {
-            // collect range
             isNearCollectible = true;
         }
     });
