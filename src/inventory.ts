@@ -1,6 +1,7 @@
 import { interactiveObstacles } from "./objects.js";
 import { inventoryEl } from "./game.js";
 import { player } from "./game.js";
+
 interface Item {
     name: string;
     x: number;
@@ -42,7 +43,6 @@ export function updateInventory(): void {
     slot.id = `${index}`;
     slot.addEventListener('click',()=>{
       takeItem(item,slot,inventory);
-      useItem(item,slot,inventory);
     });
     if (item) {
       const itemCount = document.createElement("span");
@@ -56,17 +56,46 @@ export function updateInventory(): void {
   });
   
 }
+let cursorItems:Item;
+let isHoldingItem:boolean = false;
+
 export function takeItem(item:Item,slot:HTMLElement,inventory:any){
-  if(slot.style.backgroundImage != null && player.isHoldingItem == false){
+  if(isHoldingItem == false && inventory[slot.id] != null){
+    cursorItems = inventory[slot.id];
     document.getElementById(`${slot.id}`).textContent = '';
     slot.style.backgroundImage = null;
     inventory[slot.id]=null;
-    player.isHoldingItem = true;
+    isHoldingItem = true;
+    updateInventory();
+    return;
   }
+  if(isHoldingItem == true && inventory[slot.id]==null){
+    document.getElementById(`${slot.id}`).textContent = cursorItems.count.toString();
+    slot.style.backgroundImage = `url("assets/eqIcons/${cursorItems.name}Eq.png")`;
+    inventory[slot.id]=cursorItems;
+    isHoldingItem = false;
+    updateInventory();
+    return;
+  }
+  if(isHoldingItem == true && inventory[slot.id]!=null && inventory[slot.id].name == cursorItems.name){
+    inventory[slot.id].count = inventory[slot.id].count + cursorItems.count;
+    isHoldingItem = false;
+    updateInventory();
+    return;
+  }
+  if(isHoldingItem == true && inventory[slot.id]!=null && inventory[slot.id].name != cursorItems.name){
+    let temp: Item = cursorItems;
+    cursorItems = inventory[slot.id];
+    document.getElementById(`${slot.id}`).textContent = '';
+    slot.style.backgroundImage = null;
+    inventory[slot.id]=null;
+    document.getElementById(`${slot.id}`).textContent = temp.count.toString();
+    slot.style.backgroundImage = `url("assets/eqIcons/${temp.name}Eq.png")`;
+    inventory[slot.id]=temp;
+    isHoldingItem = true;
+    updateInventory();
+    return;
+  }
+
 }
 
-export function useItem(item:Item,slot:HTMLElement,inventory:any){
-  if(player.isHoldingItem == true){
-    player.isHoldingItem = false;
-  }
-}
