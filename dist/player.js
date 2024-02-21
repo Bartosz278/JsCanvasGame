@@ -13,6 +13,7 @@ export class Player {
         this.height = 30;
         this.speed = 2.2;
         this.isCollecting = false;
+        this.isHoldingItem = false;
     }
     drawPlayer() {
         this.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);

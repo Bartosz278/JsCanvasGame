@@ -15,7 +15,7 @@ canvas.width = window.innerWidth * 0.9;
 canvas.height = window.innerHeight * 0.85;
 const playerImg = new Image();
 playerImg.src = "assets/character.png";
-let player = new Player(ctx, playerImg, canvas, isCollidingWithObstacle, interactiveObstacles, showCollectInfo, collectItem);
+export let player = new Player(ctx, playerImg, canvas, isCollidingWithObstacle, interactiveObstacles, showCollectInfo, collectItem);
 function clearCanvas() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
@@ -23,7 +23,6 @@ function updateGame() {
     clearCanvas();
     player.move(keysPressed);
     player.drawPlayer();
-    // player.showBuildRange();
     drawObstacles(ctx);
     checkCollectibleProximity(interactiveObstacles, player);
     requestAnimationFrame(updateGame);

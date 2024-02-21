@@ -1,8 +1,8 @@
 import { interactiveObstacles } from "src/objects.js";
+import { inventory } from "./inventory";
 interface Obstacle {
     x: number;
     y: number;
-    // inne właściwości
     digTime: number;
 }
 
@@ -20,6 +20,7 @@ export class Player {
     height: number;
     speed: number;
     isCollecting: boolean;
+    isHoldingItem: boolean;
   
     constructor(
       ctx: CanvasRenderingContext2D,
@@ -43,6 +44,7 @@ export class Player {
       this.height = 30;
       this.speed = 2.2;
       this.isCollecting = false;
+      this.isHoldingItem = false;
     }
   
     drawPlayer(): void {
@@ -71,7 +73,6 @@ export class Player {
       }
       if (keysPressed['g']) {
         this.showBuildRange();
-        
       }
       
       if (!this.isCollidingWithObstacle(this.interactiveObstacles, newX, newY)) {

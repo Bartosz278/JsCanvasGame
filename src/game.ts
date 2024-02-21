@@ -1,6 +1,6 @@
 import { Player } from "./player.js";
 import {interactiveObstacles,createObstacles,drawObstacles} from "./objects.js";
-import { collectItem, updateInventory } from "./inventory.js";
+import { collectItem, updateInventory, takeItem } from "./inventory.js";
 import {checkCollectibleProximity,showCollectInfo,isCollidingWithObstacle} from "./utils.js";
 import { Block,blocks } from "./blocks.js";
 
@@ -19,7 +19,7 @@ canvas.height = window.innerHeight * 0.85;
 const playerImg: HTMLImageElement = new Image();
 playerImg.src = "assets/character.png";
 
-let player: Player = new Player(
+export let player: Player = new Player(
   ctx,
   playerImg,
   canvas,
@@ -37,11 +37,9 @@ function updateGame(): void {
   clearCanvas();
   player.move(keysPressed);
   player.drawPlayer();
-  // player.showBuildRange();
   drawObstacles(ctx);
   checkCollectibleProximity(interactiveObstacles, player);
   requestAnimationFrame(updateGame);
-  
 }
 
 let keysPressed = {};

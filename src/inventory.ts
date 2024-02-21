@@ -1,6 +1,6 @@
 import { interactiveObstacles } from "./objects.js";
 import { inventoryEl } from "./game.js";
-
+import { player } from "./game.js";
 interface Item {
     name: string;
     x: number;
@@ -9,6 +9,7 @@ interface Item {
     digTime: number;
     interactive: boolean;
     count: number;
+    canPlace: boolean;
   }
   
 export const inventory: Item[] = Array(10).fill(null);
@@ -29,7 +30,7 @@ export function collectItem(index: number): void {
   }
   if (!added) {
     alert("Ekwipunek pełny!");
-  }  
+  }
   updateInventory();
 }
 
@@ -38,13 +39,34 @@ export function updateInventory(): void {
   inventory.forEach(function (item: Item, index: number) {
     const slot = document.createElement("div");
     slot.className = "slot";
+    slot.id = `${index}`;
+    slot.addEventListener('click',()=>{
+      takeItem(item,slot,inventory);
+      useItem(item,slot,inventory);
+    });
     if (item) {
       const itemCount = document.createElement("span");
       itemCount.className = "itemCount";
+      itemCount.id = `${index}`
       itemCount.textContent = item.count.toString();
       slot.appendChild(itemCount);
       slot.style.backgroundImage = `url("assets/eqIcons/${item.name}Eq.png")`;
     }
     inventoryEl.appendChild(slot);
   });
+  
+}
+export function takeItem(item:Item,slot:HTMLElement,inventory:any){
+  if(slot.style.backgroundImage != null && player.isHoldingItem == false){
+    document.getElementById(`${slot.id}`).textContent = '';
+    slot.style.backgroundImage = null;
+    inventory[slot.id]=null;
+    player.isHoldingItem = true;
+  }
+}
+
+export function useItem(item:Item,slot:HTMLElement,inventory:any){
+  if(player.isHoldingItem == true){
+    player.isHoldingItem = false;
+  }
 }
