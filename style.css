@@ -30,6 +30,9 @@ canvas {
     justify-content: center;
     align-items: center;
 }
+.slot:hover{
+    cursor: grab;
+}
 .itemCount {
     position: absolute;
     bottom: 0;

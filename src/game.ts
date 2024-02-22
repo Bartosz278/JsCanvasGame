@@ -1,6 +1,6 @@
 import { Player } from "./player.js";
 import {interactiveObstacles,createObstacles,drawObstacles} from "./objects.js";
-import { collectItem, updateInventory, takeItem } from "./inventory.js";
+import { collectItem, updateInventory, useItem, isHoldingItem, cursorItems, inventory } from "./inventory.js";
 import {checkCollectibleProximity,showCollectInfo,isCollidingWithObstacle} from "./utils.js";
 import { Block,blocks } from "./blocks.js";
 
@@ -27,6 +27,8 @@ export let player: Player = new Player(
   interactiveObstacles,
   showCollectInfo,
   collectItem,
+  updateInventory,
+  cursorItems,
 );
 
 function clearCanvas(): void {
@@ -37,6 +39,9 @@ function updateGame(): void {
   clearCanvas();
   player.move(keysPressed);
   player.drawPlayer();
+  player.drawBuildRange();
+  player.isHoldingItem = isHoldingItem;
+  player.cursorItems =cursorItems;
   drawObstacles(ctx);
   checkCollectibleProximity(interactiveObstacles, player);
   requestAnimationFrame(updateGame);
@@ -45,10 +50,20 @@ function updateGame(): void {
 let keysPressed = {};
 document.addEventListener("keypress",(event:KeyboardEvent)=>{
   keysPressed[event.key] = true;
-  player.showBuildRange();
+  player.drawBuildRange();
 })
 document.addEventListener("keyup",(event:KeyboardEvent)=>{
   delete keysPressed[event.key];
+})
+canvas.addEventListener('mousemove',(event)=>{
+  player.mouseX = event.offsetX;
+  player.mouseY = event.offsetY;
+  // console.log(player.mouseX);
+  // console.log(player.mouseY);
+  
+})
+canvas.addEventListener('mousedown',(event)=>{
+player.build(cursorItems);
   
 })
 
