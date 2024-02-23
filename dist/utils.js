@@ -3,12 +3,12 @@ export function showCollectInfo(elementId, show, text, x, y) {
     let infoBox = document.getElementById(elementId);
     if (show) {
         infoBox.textContent = text;
-        infoBox.style.display = "block";
+        infoBox.style.display = 'block';
         infoBox.style.left = `${x}px`;
         infoBox.style.top = `${y}px`;
     }
     else {
-        infoBox.style.display = "none";
+        infoBox.style.display = 'none';
     }
 }
 export function isCollidingWithObstacle(interactiveObstacles, newX, newY) {
@@ -29,4 +29,10 @@ export function checkCollectibleProximity(interactiveObstacles, player) {
     });
     if (!isNearCollectible) {
     }
+}
+export function drawCraftingWindow(ctx, player) {
+    ctx.beginPath();
+    ctx.strokeStyle = 'red';
+    ctx.rect(player.x + 50, player.y - 100 - 30, 300, 350);
+    ctx.stroke();
 }

@@ -1,4 +1,5 @@
-import { Player } from "./player";
+import { player } from './game';
+import { Player } from './player';
 
 const interactiveObstacles: any[] = [];
 
@@ -12,11 +13,11 @@ export function showCollectInfo(
   let infoBox = document.getElementById(elementId);
   if (show) {
     infoBox.textContent = text;
-    infoBox.style.display = "block";
+    infoBox.style.display = 'block';
     infoBox.style.left = `${x}px`;
     infoBox.style.top = `${y}px`;
   } else {
-    infoBox.style.display = "none";
+    infoBox.style.display = 'none';
   }
 }
 
@@ -52,3 +53,12 @@ export function checkCollectibleProximity(
   }
 }
 
+export function drawCraftingWindow(
+  ctx: CanvasRenderingContext2D,
+  player: Player
+) {
+  ctx.beginPath();
+  ctx.strokeStyle = 'red';
+  ctx.rect(player.x + 50, player.y - 100 - 30, 300, 350);
+  ctx.stroke();
+}

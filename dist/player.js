@@ -22,7 +22,8 @@ export class Player {
         this.isHoldingItem = false;
         this.canPlace = false;
         this.cursorImage = new Image();
-        this.distance = Math.sqrt(Math.pow(this.mouseX - this.x - 15, 2) + Math.pow(this.mouseY - this.y - 15, 2));
+        this.distance = Math.sqrt(Math.pow(this.mouseX - this.x - 15, 2) +
+            Math.pow(this.mouseY - this.y - 15, 2));
     }
     drawPlayer() {
         this.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
@@ -42,7 +43,8 @@ export class Player {
     }
     build(cursorItems) {
         if (this.isHoldingItem == true && cursorItems.canPlace == true) {
-            let distance = Math.sqrt(Math.pow(this.mouseX - this.x - 15, 2) + Math.pow(this.mouseY - this.y - 15, 2));
+            let distance = Math.sqrt(Math.pow(this.mouseX - this.x - 15, 2) +
+                Math.pow(this.mouseY - this.y - 15, 2));
             this.cursorItems = this.getCursorItems();
             this.cursorImage.src = `assets/eqIcons/${this.cursorItems.name}Eq.png`;
             if (distance <= 100 && this.getCursorItems().count > 0) {
@@ -56,7 +58,7 @@ export class Player {
                     interactive: this.getCursorItems().interactive,
                     count: 0,
                     image: new Image(),
-                    canPlace: this.getCursorItems().canPlace,
+                    canPlace: this.getCursorItems().canPlace
                 };
                 obstacle.image.src = `assets/${this.cursorItems.name}.png`;
                 this.interactiveObstacles.push(obstacle);
@@ -70,23 +72,25 @@ export class Player {
             this.updateInventory();
         }
         if (this.isHoldingItem == true && this.distance > 100) {
-            this.showCollectInfo("infoBox", true, "Cannot place here", this.mouseX, this.mouseY);
-            setTimeout(() => { this.showCollectInfo("infoBox", false, "", 1, 2); }, 1000);
+            this.showCollectInfo('infoBox', true, 'Cannot place here', this.mouseX, this.mouseY);
+            setTimeout(() => {
+                this.showCollectInfo('infoBox', false, '', 1, 2);
+            }, 1000);
         }
     }
     move(keysPressed) {
         let newX = this.x;
         let newY = this.y;
-        if (keysPressed["w"]) {
+        if (keysPressed['w']) {
             newY -= this.speed;
         }
-        if (keysPressed["s"]) {
+        if (keysPressed['s']) {
             newY += this.speed;
         }
-        if (keysPressed["a"]) {
+        if (keysPressed['a']) {
             newX -= this.speed;
         }
-        if (keysPressed["d"]) {
+        if (keysPressed['d']) {
             newX += this.speed;
         }
         if (keysPressed['g']) {
@@ -109,11 +113,11 @@ export class Player {
             let distance = Math.sqrt(Math.pow(this.x - obstacle.x, 2) + Math.pow(this.y - obstacle.y, 2));
             if (distance < 50) {
                 this.isCollecting = true;
-                this.showCollectInfo("infoBox", true, "Collecting...", this.x + 20, this.y - 20);
+                this.showCollectInfo('infoBox', true, 'Collecting...', this.x + 20, this.y - 20);
                 setTimeout(() => {
                     this.collectItem(i);
                     this.isCollecting = false;
-                    this.showCollectInfo("infoBox", false, "x", this.x + 20, this.y - 20);
+                    this.showCollectInfo('infoBox', false, 'x', this.x + 20, this.y - 20);
                 }, obstacle.digTime);
                 break;
             }

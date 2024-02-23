@@ -1,17 +1,20 @@
-export const interactiveObstacles: { 
-  name: string,
-  x: number,
-  y: number,
-  size: number,
-  digTime: number,
-  interactive: boolean,
-  count: number,
-  image: HTMLImageElement ,
-  canPlace: boolean,
+export const interactiveObstacles: {
+  name: string;
+  x: number;
+  y: number;
+  size: number;
+  digTime: number;
+  interactive: boolean;
+  count: number;
+  image: HTMLImageElement;
+  canPlace: boolean;
 }[] = [];
 import { Block, blocks } from './blocks.js';
 
-export function createObstacles(canvas: HTMLCanvasElement, quantity: number): void {
+export function createObstacles(
+  canvas: HTMLCanvasElement,
+  quantity: number
+): void {
   for (let i: number = 0; i < quantity; i++) {
     const randomNumber = Math.floor(Math.random() * 100);
     let chosenBlock: Block | undefined;
@@ -34,9 +37,9 @@ export function createObstacles(canvas: HTMLCanvasElement, quantity: number): vo
         interactive: chosenBlock.interactive,
         count: 0,
         image: new Image(),
-        canPlace: chosenBlock.canPlace,
+        canPlace: chosenBlock.canPlace
       };
-      obstacle.image.src = `assets/${obstacle.name}.png`
+      obstacle.image.src = `assets/${obstacle.name}.png`;
       interactiveObstacles.push(obstacle);
     }
   }
@@ -49,9 +52,7 @@ export function drawObstacles(ctx: CanvasRenderingContext2D): void {
       obstacle.x,
       obstacle.y,
       obstacle.size,
-      obstacle.size,
+      obstacle.size
     );
   });
 }
-
-console.log(interactiveObstacles);

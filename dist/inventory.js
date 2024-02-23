@@ -1,6 +1,6 @@
-import { interactiveObstacles } from "./objects.js";
-import { inventoryEl } from "./game.js";
-import { player } from "./game.js";
+import { interactiveObstacles } from './objects.js';
+import { inventoryEl } from './game.js';
+import { player } from './game.js';
 export const inventory = Array(10).fill(null);
 export function collectItem(index) {
     const item = Object.assign({}, interactiveObstacles.splice(index, 1)[0]);
@@ -18,22 +18,22 @@ export function collectItem(index) {
         }
     }
     if (!added) {
-        alert("Ekwipunek pełny!");
+        alert('Ekwipunek pełny!');
     }
     updateInventory();
 }
 export function updateInventory() {
-    inventoryEl.innerHTML = "";
+    inventoryEl.innerHTML = '';
     inventory.forEach(function (item, index) {
-        const slot = document.createElement("div");
-        slot.className = "slot";
+        const slot = document.createElement('div');
+        slot.className = 'slot';
         slot.id = `${index}`;
         slot.addEventListener('click', () => {
             useItem(item, slot, inventory);
         });
         if (item) {
-            const itemCount = document.createElement("span");
-            itemCount.className = "itemCount";
+            const itemCount = document.createElement('span');
+            itemCount.className = 'itemCount';
             itemCount.id = `${index}`;
             itemCount.textContent = item.count.toString();
             slot.appendChild(itemCount);
@@ -67,21 +67,31 @@ export function useItem(item, slot, inventory) {
         updateInventory();
         return true;
     }
-    if (getIsHoldingItem() == true && inventory[slot.id] == null && cursorItems.count > 0) {
-        document.getElementById(`${slot.id}`).textContent = cursorItems.count.toString();
+    if (getIsHoldingItem() == true &&
+        inventory[slot.id] == null &&
+        cursorItems.count > 0) {
+        document.getElementById(`${slot.id}`).textContent =
+            cursorItems.count.toString();
         slot.style.backgroundImage = `url("assets/eqIcons/${cursorItems.name}Eq.png")`;
         inventory[slot.id] = getCursorItems();
         setIsHoldingItem(false);
         updateInventory();
         return false;
     }
-    if (getIsHoldingItem() == true && inventory[slot.id] != null && inventory[slot.id].name == cursorItems.name && cursorItems.count > 0) {
-        inventory[slot.id].count = inventory[slot.id].count + getCursorItems().count;
+    if (getIsHoldingItem() == true &&
+        inventory[slot.id] != null &&
+        inventory[slot.id].name == cursorItems.name &&
+        cursorItems.count > 0) {
+        inventory[slot.id].count =
+            inventory[slot.id].count + getCursorItems().count;
         setIsHoldingItem(false);
         updateInventory();
         return false;
     }
-    if (getIsHoldingItem() == true && inventory[slot.id] != null && inventory[slot.id].name != cursorItems.name && cursorItems.count > 0) {
+    if (getIsHoldingItem() == true &&
+        inventory[slot.id] != null &&
+        inventory[slot.id].name != cursorItems.name &&
+        cursorItems.count > 0) {
         let temp = getCursorItems();
         setCursorItems(inventory[slot.id]);
         document.getElementById(`${slot.id}`).textContent = '';
