@@ -2,7 +2,8 @@ export const interactiveObstacles: {
   name: string;
   x: number;
   y: number;
-  size: number;
+  height: number;
+  width: number;
   digTime: number;
   interactive: boolean;
   count: number;
@@ -32,14 +33,15 @@ export function createObstacles(
         name: chosenBlock.name,
         x: Math.random() * (window.innerWidth * 0.9 - 20),
         y: Math.random() * (window.innerHeight * 0.75 - 20),
-        size: 40,
+        height: chosenBlock.height,
+        width: chosenBlock.width,
         digTime: chosenBlock.diggingTime,
         interactive: chosenBlock.interactive,
         count: 0,
         image: new Image(),
         canPlace: chosenBlock.canPlace
       };
-      obstacle.image.src = `assets/${obstacle.name}.png`;
+      obstacle.image.src = `assets/${obstacle.name}.webp`;
       interactiveObstacles.push(obstacle);
     }
   }
@@ -51,8 +53,8 @@ export function drawObstacles(ctx: CanvasRenderingContext2D): void {
       obstacle.image,
       obstacle.x,
       obstacle.y,
-      obstacle.size,
-      obstacle.size
+      obstacle.width,
+      obstacle.height
     );
   });
 }

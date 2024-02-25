@@ -5,6 +5,11 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <div id="craftingWindow">
+      <div id="1" class="itemInCrafting">wall<br><span>2x</span><img src="assets/stone.webp" alt="stone" style="height: 25px;"></div>
+      <div id="2" class="itemInCrafting">bed</div>
+      <div id="3" class="itemInCrafting">pickaxe</div>
+    </div>
     <canvas id="gameCanvas"></canvas>
     <div id="bottomBar">
       <div id="crafting"><img src="assets/crafting.webp" /></div>
@@ -15,7 +20,6 @@
       <p>w,s,a,d - moving</p>
       <p>space - collect</p>
     </div>
-
-    <script type="module" src="./dist/game.js"></script>
   </body>
+  <script type="module" src="./dist/game.js"></script>
 </html>

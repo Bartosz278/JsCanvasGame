@@ -28,9 +28,9 @@ export function isCollidingWithObstacle(
 ): boolean {
   return interactiveObstacles.some((obstacle) => {
     return (
-      newX < obstacle.x + obstacle.size &&
+      newX < obstacle.x + obstacle.width &&
       newX + this.width > obstacle.x &&
-      newY < obstacle.y + obstacle.size &&
+      newY < obstacle.y + obstacle.height &&
       newY + this.height > obstacle.y
     );
   });
@@ -51,14 +51,4 @@ export function checkCollectibleProximity(
   });
   if (!isNearCollectible) {
   }
-}
-
-export function drawCraftingWindow(
-  ctx: CanvasRenderingContext2D,
-  player: Player
-) {
-  ctx.beginPath();
-  ctx.strokeStyle = 'red';
-  ctx.rect(player.x + 50, player.y - 100 - 30, 300, 350);
-  ctx.stroke();
 }

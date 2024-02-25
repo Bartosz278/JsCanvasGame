@@ -13,9 +13,9 @@ export function showCollectInfo(elementId, show, text, x, y) {
 }
 export function isCollidingWithObstacle(interactiveObstacles, newX, newY) {
     return interactiveObstacles.some((obstacle) => {
-        return (newX < obstacle.x + obstacle.size &&
+        return (newX < obstacle.x + obstacle.width &&
             newX + this.width > obstacle.x &&
-            newY < obstacle.y + obstacle.size &&
+            newY < obstacle.y + obstacle.height &&
             newY + this.height > obstacle.y);
     });
 }
@@ -29,10 +29,4 @@ export function checkCollectibleProximity(interactiveObstacles, player) {
     });
     if (!isNearCollectible) {
     }
-}
-export function drawCraftingWindow(ctx, player) {
-    ctx.beginPath();
-    ctx.strokeStyle = 'red';
-    ctx.rect(player.x + 50, player.y - 100 - 30, 300, 350);
-    ctx.stroke();
 }

@@ -1,20 +1,27 @@
 import { Player } from './player.js';
+//prettier-ignore
 import { interactiveObstacles, createObstacles, drawObstacles } from './objects.js';
+//prettier-ignore
 import { collectItem, updateInventory, isHoldingItem, cursorItems, setIsHoldingItem, setCursorItems, getCursorItems } from './inventory.js';
-import { checkCollectibleProximity, showCollectInfo, isCollidingWithObstacle, drawCraftingWindow } from './utils.js';
+//prettier-ignore
+import { checkCollectibleProximity, showCollectInfo, isCollidingWithObstacle } from './utils.js';
+//prettier-ignore
+import { drawCraftingWindow } from './crafting.js';
 let canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 const infoBox = document.getElementById('infoBox');
 export const inventoryEl = document.getElementById('inventory');
 const backgroundImage = new Image();
-backgroundImage.src = 'assets/grass.png';
+const crafingIcon = document.querySelector('#crafting');
+const craftingWindow = document.querySelector('#craftingWindow');
+backgroundImage.src = 'assets/grass.webp';
 backgroundImage.onload = function () {
     ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
 };
 canvas.width = window.innerWidth * 0.9;
 canvas.height = window.innerHeight * 0.85;
 const playerImg = new Image();
-playerImg.src = 'assets/character.png';
+playerImg.src = 'assets/character.webp';
 export let player = new Player(ctx, playerImg, canvas, isCollidingWithObstacle, interactiveObstacles, showCollectInfo, collectItem, updateInventory, setIsHoldingItem, setCursorItems, getCursorItems, cursorItems);
 function clearCanvas() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -27,7 +34,7 @@ function updateGame() {
     player.isHoldingItem = isHoldingItem;
     player.cursorItems = getCursorItems();
     drawObstacles(ctx);
-    drawCraftingWindow(ctx, player);
+    drawCraftingWindow(player, craftingWindow);
     checkCollectibleProximity(interactiveObstacles, player);
     requestAnimationFrame(updateGame);
 }
@@ -45,6 +52,14 @@ canvas.addEventListener('mousemove', (event) => {
 });
 canvas.addEventListener('mousedown', (event) => {
     player.build(getCursorItems());
+});
+crafingIcon.addEventListener('click', () => {
+    if (player.isCraftingOpen == false) {
+        player.isCraftingOpen = true;
+    }
+    else {
+        player.isCraftingOpen = false;
+    }
 });
 createObstacles(canvas, 25);
 updateInventory();

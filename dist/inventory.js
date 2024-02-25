@@ -37,7 +37,8 @@ export function updateInventory() {
             itemCount.id = `${index}`;
             itemCount.textContent = item.count.toString();
             slot.appendChild(itemCount);
-            slot.style.backgroundImage = `url("assets/eqIcons/${item.name}Eq.png")`;
+            slot.style.backgroundImage = `url("assets/eqIcons/${item.name}Eq.webp")`;
+            // slot.style.backgroundRepeat = 'no-repeat';
         }
         inventoryEl.appendChild(slot);
     });
@@ -72,7 +73,7 @@ export function useItem(item, slot, inventory) {
         cursorItems.count > 0) {
         document.getElementById(`${slot.id}`).textContent =
             cursorItems.count.toString();
-        slot.style.backgroundImage = `url("assets/eqIcons/${cursorItems.name}Eq.png")`;
+        slot.style.backgroundImage = `url("assets/eqIcons/${cursorItems.name}Eq.webp")`;
         inventory[slot.id] = getCursorItems();
         setIsHoldingItem(false);
         updateInventory();
@@ -98,7 +99,7 @@ export function useItem(item, slot, inventory) {
         slot.style.backgroundImage = null;
         inventory[slot.id] = null;
         document.getElementById(`${slot.id}`).textContent = temp.count.toString();
-        slot.style.backgroundImage = `url("assets/eqIcons/${temp.name}Eq.png")`;
+        slot.style.backgroundImage = `url("assets/eqIcons/${temp.name}Eq.webp")`;
         inventory[slot.id] = temp;
         setIsHoldingItem(true);
         updateInventory();
