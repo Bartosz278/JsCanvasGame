@@ -10,3 +10,10 @@ export function drawCraftingWindow(
     craftingWindow.style.display = 'none';
   }
 }
+export function moveWindow(window: HTMLElement, player: Player) {
+  window.style.bottom = `${player.mouseY}px`;
+  console.log(player.mouseY);
+  console.log(player.mouseX);
+
+  window.style.left = `${player.mouseX}px`;
+}

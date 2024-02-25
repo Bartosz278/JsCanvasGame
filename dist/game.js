@@ -4,7 +4,7 @@ import { interactiveObstacles, createObstacles, drawObstacles } from './objects.
 //prettier-ignore
 import { collectItem, updateInventory, isHoldingItem, cursorItems, setIsHoldingItem, setCursorItems, getCursorItems } from './inventory.js';
 //prettier-ignore
-import { checkCollectibleProximity, showCollectInfo, isCollidingWithObstacle } from './utils.js';
+import { checkCollectibleProximity, showCollectInfo, isCollidingWithObstacle, dragElement } from './utils.js';
 //prettier-ignore
 import { drawCraftingWindow } from './crafting.js';
 let canvas = document.getElementById('gameCanvas');
@@ -14,6 +14,8 @@ export const inventoryEl = document.getElementById('inventory');
 const backgroundImage = new Image();
 const crafingIcon = document.querySelector('#crafting');
 const craftingWindow = document.querySelector('#craftingWindow');
+const dragzone = document;
+const closeCraftingButton = document.querySelector('#closeCraftingButton');
 backgroundImage.src = 'assets/grass.webp';
 backgroundImage.onload = function () {
     ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
@@ -61,6 +63,10 @@ crafingIcon.addEventListener('click', () => {
         player.isCraftingOpen = false;
     }
 });
+closeCraftingButton.addEventListener('click', () => {
+    player.isCraftingOpen = false;
+});
+dragElement(craftingWindow, dragzone);
 createObstacles(canvas, 25);
 updateInventory();
 updateGame();
