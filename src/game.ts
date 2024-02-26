@@ -18,8 +18,8 @@ const infoBox: HTMLElement = document.getElementById('infoBox');
 export const inventoryEl: HTMLElement = document.getElementById('inventory');
 const backgroundImage: HTMLImageElement = new Image();
 const crafingIcon: HTMLElement = document.querySelector('#crafting');
-const craftingWindow: HTMLElement = document.querySelector('#craftingWindow');
-const dragzone = document;
+export const craftingWindow: HTMLElement =
+  document.querySelector('#craftingWindow');
 const closeCraftingButton: HTMLElement = document.querySelector(
   '#closeCraftingButton'
 );
@@ -92,7 +92,9 @@ closeCraftingButton.addEventListener('click', () => {
   player.isCraftingOpen = false;
 });
 
-dragElement(craftingWindow, dragzone);
+document.addEventListener('contextmenu', (event) => event.preventDefault());
+
+dragElement(craftingWindow, craftingWindow);
 createObstacles(canvas, 25);
 updateInventory();
 updateGame();

@@ -13,8 +13,7 @@ const infoBox = document.getElementById('infoBox');
 export const inventoryEl = document.getElementById('inventory');
 const backgroundImage = new Image();
 const crafingIcon = document.querySelector('#crafting');
-const craftingWindow = document.querySelector('#craftingWindow');
-const dragzone = document;
+export const craftingWindow = document.querySelector('#craftingWindow');
 const closeCraftingButton = document.querySelector('#closeCraftingButton');
 backgroundImage.src = 'assets/grass.webp';
 backgroundImage.onload = function () {
@@ -66,7 +65,8 @@ crafingIcon.addEventListener('click', () => {
 closeCraftingButton.addEventListener('click', () => {
     player.isCraftingOpen = false;
 });
-dragElement(craftingWindow, dragzone);
+document.addEventListener('contextmenu', (event) => event.preventDefault());
+dragElement(craftingWindow, craftingWindow);
 createObstacles(canvas, 25);
 updateInventory();
 updateGame();

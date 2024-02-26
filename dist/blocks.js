@@ -20,7 +20,7 @@ export const blocks = [
         canPlace: false
     },
     {
-        name: 'wall3',
+        name: 'wall',
         height: 48,
         width: 33,
         diggingTime: 500,

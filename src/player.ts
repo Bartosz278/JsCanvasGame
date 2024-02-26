@@ -181,10 +181,6 @@ export class Player {
       newX += this.speed;
     }
     if (keysPressed['g']) {
-      this.drawBuildRange();
-      console.log(this.mouseX);
-      console.log(this.mouseY);
-      console.log(this.interactiveObstacles);
     }
     if (!this.isCollidingWithObstacle(this.interactiveObstacles, newX, newY)) {
       this.x = newX;

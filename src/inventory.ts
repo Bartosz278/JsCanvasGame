@@ -19,15 +19,21 @@ export const inventory: Item[] = Array(10).fill(null);
 export function collectItem(index: number): void {
   const item: Item = { ...interactiveObstacles.splice(index, 1)[0] };
   let added: boolean = false;
+
   for (let i = 0; i < inventory.length; i++) {
-    if (inventory[i] && inventory[i].name == item.name) {
-      inventory[i].count++;
+    if (inventory[i] && inventory[i].name === item.name) {
+      inventory[i].count += 1;
       added = true;
       break;
-    } else if (!inventory[i]) {
-      inventory[i] = { ...item, count: 1 };
-      added = true;
-      break;
+    }
+  }
+  if (!added) {
+    for (let i = 0; i < inventory.length; i++) {
+      if (!inventory[i]) {
+        inventory[i] = { ...item, count: 1 };
+        added = true;
+        break;
+      }
     }
   }
   if (!added) {
@@ -35,7 +41,6 @@ export function collectItem(index: number): void {
   }
   updateInventory();
 }
-
 export function updateInventory(): void {
   inventoryEl.innerHTML = '';
   inventory.forEach(function (item: Item, index: number) {
