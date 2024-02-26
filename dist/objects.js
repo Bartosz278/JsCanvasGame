@@ -15,8 +15,8 @@ export function createObstacles(canvas, quantity) {
         if (chosenBlock) {
             const obstacle = {
                 name: chosenBlock.name,
-                x: Math.random() * (window.innerWidth * 0.9 - 20),
-                y: Math.random() * (window.innerHeight * 0.75 - 20),
+                x: Math.random() * 1000,
+                y: Math.random() * 1000,
                 height: chosenBlock.height,
                 width: chosenBlock.width,
                 digTime: chosenBlock.diggingTime,

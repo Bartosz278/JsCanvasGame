@@ -95,6 +95,6 @@ closeCraftingButton.addEventListener('click', () => {
 document.addEventListener('contextmenu', (event) => event.preventDefault());
 
 dragElement(craftingWindow, craftingWindow);
-createObstacles(canvas, 25);
+createObstacles(canvas, 20);
 updateInventory();
 updateGame();

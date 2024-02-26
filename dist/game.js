@@ -19,8 +19,12 @@ backgroundImage.src = 'assets/grass.webp';
 backgroundImage.onload = function () {
     ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
 };
-canvas.width = window.innerWidth * 0.9;
-canvas.height = window.innerHeight * 0.85;
+// canvas.width = window.innerWidth * 0.9;
+// canvas.height = window.innerHeight * 0.85;
+canvas.width = 1000;
+canvas.height = 0;
+const viewportWidth = window.innerWidth;
+const viewportHeight = window.innerHeight;
 const playerImg = new Image();
 playerImg.src = 'assets/character.webp';
 export let player = new Player(ctx, playerImg, canvas, isCollidingWithObstacle, interactiveObstacles, showCollectInfo, collectItem, updateInventory, setIsHoldingItem, setCursorItems, getCursorItems, cursorItems);
@@ -67,6 +71,6 @@ closeCraftingButton.addEventListener('click', () => {
 });
 document.addEventListener('contextmenu', (event) => event.preventDefault());
 dragElement(craftingWindow, craftingWindow);
-createObstacles(canvas, 25);
+createObstacles(canvas, 100);
 updateInventory();
 updateGame();
