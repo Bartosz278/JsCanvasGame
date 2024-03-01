@@ -15,8 +15,8 @@ export function createObstacles(canvas, quantity) {
         if (chosenBlock) {
             const obstacle = {
                 name: chosenBlock.name,
-                x: Math.random() * 1000,
-                y: Math.random() * 1000,
+                x: Math.random() * 2500,
+                y: Math.random() * window.innerHeight * 0.9 - 20,
                 height: chosenBlock.height,
                 width: chosenBlock.width,
                 digTime: chosenBlock.diggingTime,
@@ -30,8 +30,8 @@ export function createObstacles(canvas, quantity) {
         }
     }
 }
-export function drawObstacles(ctx) {
+export function drawObstacles(ctx, cameraX, cameraY) {
     interactiveObstacles.forEach(function (obstacle) {
-        ctx.drawImage(obstacle.image, obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+        ctx.drawImage(obstacle.image, obstacle.x - cameraX, obstacle.y - cameraY, obstacle.width, obstacle.height);
     });
 }

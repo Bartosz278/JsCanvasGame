@@ -25,6 +25,8 @@ export class Player {
         this.distance = Math.sqrt(Math.pow(this.mouseX - this.x - 15, 2) +
             Math.pow(this.mouseY - this.y - 15, 2));
         this.isCraftingOpen = false;
+        this.cameraX = 0;
+        this.cameraY = 0;
     }
     drawPlayer() {
         this.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
@@ -98,7 +100,7 @@ export class Player {
         }
         if (keysPressed['g']) {
         }
-        if (!this.isCollidingWithObstacle(this.interactiveObstacles, newX, newY)) {
+        if (!this.isCollidingWithObstacle(this.interactiveObstacles, newX, newY, this.cameraX, this.cameraY)) {
             this.x = newX;
             this.y = newY;
         }

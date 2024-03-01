@@ -21,7 +21,9 @@ export class Player {
   isCollidingWithObstacle: (
     obstacles: Obstacle[],
     x: number,
-    y: number
+    y: number,
+    cameraX: number,
+    cameraY: number
   ) => boolean;
   interactiveObstacles: Obstacle[];
   showCollectInfo: (
@@ -50,6 +52,8 @@ export class Player {
   cursorImage: HTMLImageElement;
   distance: number;
   isCraftingOpen: boolean;
+  cameraX: number;
+  cameraY: number;
 
   constructor(
     ctx: CanvasRenderingContext2D,
@@ -58,7 +62,9 @@ export class Player {
     isCollidingWithObstacle: (
       obstacles: Obstacle[],
       x: number,
-      y: number
+      y: number,
+      cameraX: number,
+      cameraY: number
     ) => boolean,
     interactiveObstacles: Obstacle[],
     showCollectInfo: (
@@ -102,6 +108,8 @@ export class Player {
         Math.pow(this.mouseY - this.y - 15, 2)
     );
     this.isCraftingOpen = false;
+    this.cameraX = 0;
+    this.cameraY = 0;
   }
 
   drawPlayer(): void {
@@ -189,7 +197,15 @@ export class Player {
     }
     if (keysPressed['g']) {
     }
-    if (!this.isCollidingWithObstacle(this.interactiveObstacles, newX, newY)) {
+    if (
+      !this.isCollidingWithObstacle(
+        this.interactiveObstacles,
+        newX,
+        newY,
+        this.cameraX,
+        this.cameraY
+      )
+    ) {
       this.x = newX;
       this.y = newY;
     }

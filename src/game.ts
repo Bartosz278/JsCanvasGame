@@ -4,7 +4,7 @@ import {interactiveObstacles,createObstacles,drawObstacles} from './objects.js';
 //prettier-ignore
 import {collectItem,updateInventory,useItem,isHoldingItem,cursorItems,inventory,setIsHoldingItem,setCursorItems,getCursorItems} from './inventory.js';
 //prettier-ignore
-import {checkCollectibleProximity,showCollectInfo,isCollidingWithObstacle, dragElement} from './utils.js';
+import {checkCollectibleProximity,showCollectInfo,isCollidingWithObstacle, dragElement, drawBackground} from './utils.js';
 //prettier-ignore
 import { Block, blocks } from './blocks.js';
 //prettier-ignore
@@ -24,12 +24,11 @@ const closeCraftingButton: HTMLElement = document.querySelector(
   '#closeCraftingButton'
 );
 backgroundImage.src = 'assets/grass.webp';
-backgroundImage.onload = function () {
-  ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
-};
 
-canvas.width = window.innerWidth * 0.9;
-canvas.height = window.innerHeight * 0.85;
+// canvas.width = window.innerWidth * 1.2;
+// canvas.height = window.innerHeight * 1.1;
+canvas.width = 2000;
+canvas.height = 1000;
 const playerImg: HTMLImageElement = new Image();
 playerImg.src = 'assets/character.webp';
 
@@ -53,13 +52,18 @@ function clearCanvas(): void {
 }
 
 function updateGame(): void {
+  debugger;
+  updateCamera();
   clearCanvas();
+  // drawBackground(ctx, backgroundImage, player);
   player.move(keysPressed);
   player.drawPlayer();
   player.drawBuildRange();
   player.isHoldingItem = isHoldingItem;
   player.cursorItems = getCursorItems();
-  drawObstacles(ctx);
+  player.cameraX = cameraX;
+  player.cameraY = cameraY;
+  drawObstacles(ctx, cameraX, cameraY);
   drawCraftingWindow(player, craftingWindow);
   checkCollectibleProximity(interactiveObstacles, player);
   requestAnimationFrame(updateGame);
@@ -94,7 +98,23 @@ closeCraftingButton.addEventListener('click', () => {
 
 document.addEventListener('contextmenu', (event) => event.preventDefault());
 
+let cameraX = 0;
+let cameraY = 0;
+let viewportWidth = window.innerWidth;
+let viewportHeight = window.innerHeight;
+function updateCamera() {
+  // Centruj kamerę na graczu, z ograniczeniami, aby nie wychodziła poza granice świata gry
+  cameraX = Math.max(
+    0,
+    Math.min(player.x - viewportWidth / 2, canvas.width - viewportWidth)
+  );
+  cameraY = Math.max(
+    0,
+    Math.min(player.y - viewportHeight / 2, canvas.height - viewportHeight)
+  );
+}
+
 dragElement(craftingWindow, craftingWindow);
-createObstacles(canvas, 20);
+createObstacles(canvas, 100);
 updateInventory();
 updateGame();

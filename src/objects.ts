@@ -31,8 +31,8 @@ export function createObstacles(
     if (chosenBlock) {
       const obstacle = {
         name: chosenBlock.name,
-        x: Math.random() * window.innerWidth * 0.9 - 20,
-        y: Math.random() * window.innerHeight * 0.75 - 20,
+        x: Math.random() * 2500,
+        y: Math.random() * window.innerHeight * 0.9 - 20,
         height: chosenBlock.height,
         width: chosenBlock.width,
         digTime: chosenBlock.diggingTime,
@@ -47,12 +47,16 @@ export function createObstacles(
   }
 }
 
-export function drawObstacles(ctx: CanvasRenderingContext2D): void {
+export function drawObstacles(
+  ctx: CanvasRenderingContext2D,
+  cameraX,
+  cameraY
+): void {
   interactiveObstacles.forEach(function (obstacle) {
     ctx.drawImage(
       obstacle.image,
-      obstacle.x,
-      obstacle.y,
+      obstacle.x - cameraX,
+      obstacle.y - cameraY,
       obstacle.width,
       obstacle.height
     );

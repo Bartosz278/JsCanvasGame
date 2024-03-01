@@ -16,15 +16,10 @@ const crafingIcon = document.querySelector('#crafting');
 export const craftingWindow = document.querySelector('#craftingWindow');
 const closeCraftingButton = document.querySelector('#closeCraftingButton');
 backgroundImage.src = 'assets/grass.webp';
-backgroundImage.onload = function () {
-    ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
-};
-// canvas.width = window.innerWidth * 0.9;
-// canvas.height = window.innerHeight * 0.85;
-canvas.width = 1000;
-canvas.height = 0;
-const viewportWidth = window.innerWidth;
-const viewportHeight = window.innerHeight;
+// canvas.width = window.innerWidth * 1.2;
+// canvas.height = window.innerHeight * 1.1;
+canvas.width = 2000;
+canvas.height = 1000;
 const playerImg = new Image();
 playerImg.src = 'assets/character.webp';
 export let player = new Player(ctx, playerImg, canvas, isCollidingWithObstacle, interactiveObstacles, showCollectInfo, collectItem, updateInventory, setIsHoldingItem, setCursorItems, getCursorItems, cursorItems);
@@ -32,13 +27,17 @@ function clearCanvas() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 function updateGame() {
+    updateCamera();
     clearCanvas();
+    // drawBackground(ctx, backgroundImage, player);
     player.move(keysPressed);
     player.drawPlayer();
     player.drawBuildRange();
     player.isHoldingItem = isHoldingItem;
     player.cursorItems = getCursorItems();
-    drawObstacles(ctx);
+    player.cameraX = cameraX;
+    player.cameraY = cameraY;
+    drawObstacles(ctx, cameraX, cameraY);
     drawCraftingWindow(player, craftingWindow);
     checkCollectibleProximity(interactiveObstacles, player);
     requestAnimationFrame(updateGame);
@@ -70,6 +69,15 @@ closeCraftingButton.addEventListener('click', () => {
     player.isCraftingOpen = false;
 });
 document.addEventListener('contextmenu', (event) => event.preventDefault());
+let cameraX = 0;
+let cameraY = 0;
+let viewportWidth = window.innerWidth;
+let viewportHeight = window.innerHeight;
+function updateCamera() {
+    // Centruj kamerę na graczu, z ograniczeniami, aby nie wychodziła poza granice świata gry
+    cameraX = Math.max(0, Math.min(player.x - viewportWidth / 2, canvas.width - viewportWidth));
+    cameraY = Math.max(0, Math.min(player.y - viewportHeight / 2, canvas.height - viewportHeight));
+}
 dragElement(craftingWindow, craftingWindow);
 createObstacles(canvas, 100);
 updateInventory();
