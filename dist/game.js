@@ -19,7 +19,7 @@ backgroundImage.src = 'assets/grass.webp';
 backgroundImage.onload = function () {
     ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
 };
-canvas.width = window.innerWidth * 0.9;
+canvas.width = window.innerWidth;
 canvas.height = window.innerHeight * 0.85;
 const playerImg = new Image();
 playerImg.src = 'assets/character.webp';

@@ -97,6 +97,14 @@ export class Player {
             newX += this.speed;
         }
         if (keysPressed['g']) {
+            document.getElementById('night').style.opacity = '100%';
+            document.getElementById('night2').style.opacity = '50%';
+        }
+        if (newY - this.speed <= 0 ||
+            newY + this.speed >= this.canvas.height - 30 ||
+            newX - this.speed <= 0 ||
+            newX + this.speed >= this.canvas.width - 30) {
+            return;
         }
         if (!this.isCollidingWithObstacle(this.interactiveObstacles, newX, newY)) {
             this.x = newX;
