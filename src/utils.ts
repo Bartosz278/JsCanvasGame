@@ -1,5 +1,5 @@
-import { player } from './game';
-import { Player } from './player';
+import { player } from './game.js';
+import { Player } from './player.js';
 
 const interactiveObstacles: any[] = [];
 
