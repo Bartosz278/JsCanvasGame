@@ -13,75 +13,60 @@ const infoBox = document.getElementById('infoBox');
 export const inventoryEl = document.getElementById('inventory');
 const backgroundImage = new Image();
 const crafingIcon = document.querySelector('#crafting');
-const craftingWindow = document.querySelector('#craftingWindow');
-const dragzone = document;
+export const craftingWindow = document.querySelector('#craftingWindow');
 const closeCraftingButton = document.querySelector('#closeCraftingButton');
 backgroundImage.src = 'assets/grass.webp';
-// canvas.width = window.innerWidth * 1.2;
-// canvas.height = window.innerHeight * 1.1;
-canvas.width = 2000;
-canvas.height = 1000;
+backgroundImage.onload = function () {
+    ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+};
+canvas.width = window.innerWidth * 0.9;
+canvas.height = window.innerHeight * 0.85;
 const playerImg = new Image();
 playerImg.src = 'assets/character.webp';
-export let player = new Player(
-  ctx,
-  playerImg,
-  canvas,
-  isCollidingWithObstacle,
-  interactiveObstacles,
-  showCollectInfo,
-  collectItem,
-  updateInventory,
-  setIsHoldingItem,
-  setCursorItems,
-  getCursorItems,
-  cursorItems
-);
+export let player = new Player(ctx, playerImg, canvas, isCollidingWithObstacle, interactiveObstacles, showCollectInfo, collectItem, updateInventory, setIsHoldingItem, setCursorItems, getCursorItems, cursorItems);
 function clearCanvas() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 function updateGame() {
-  updateCamera();
-  clearCanvas();
-  // drawBackground(ctx, backgroundImage, player);
-  player.move(keysPressed);
-  player.drawPlayer();
-  player.drawBuildRange();
-  player.isHoldingItem = isHoldingItem;
-  player.cursorItems = getCursorItems();
-  player.cameraX = cameraX;
-  player.cameraY = cameraY;
-  drawObstacles(ctx, cameraX, cameraY);
-  drawCraftingWindow(player, craftingWindow);
-  checkCollectibleProximity(interactiveObstacles, player);
-  requestAnimationFrame(updateGame);
+    clearCanvas();
+    player.move(keysPressed);
+    player.drawPlayer();
+    player.drawBuildRange();
+    player.isHoldingItem = isHoldingItem;
+    player.cursorItems = getCursorItems();
+    drawObstacles(ctx);
+    drawCraftingWindow(player, craftingWindow);
+    checkCollectibleProximity(interactiveObstacles, player);
+    requestAnimationFrame(updateGame);
 }
 let keysPressed = {};
 document.addEventListener('keypress', (event) => {
-  keysPressed[event.key] = true;
-  player.drawBuildRange();
+    keysPressed[event.key] = true;
+    player.drawBuildRange();
 });
 document.addEventListener('keyup', (event) => {
-  delete keysPressed[event.key];
+    delete keysPressed[event.key];
 });
 canvas.addEventListener('mousemove', (event) => {
-  player.mouseX = event.offsetX;
-  player.mouseY = event.offsetY;
+    player.mouseX = event.offsetX;
+    player.mouseY = event.offsetY;
 });
 canvas.addEventListener('mousedown', (event) => {
-  player.build(getCursorItems());
+    player.build(getCursorItems());
 });
 crafingIcon.addEventListener('click', () => {
-  if (player.isCraftingOpen == false) {
-    player.isCraftingOpen = true;
-  } else {
-    player.isCraftingOpen = false;
-  }
+    if (player.isCraftingOpen == false) {
+        player.isCraftingOpen = true;
+    }
+    else {
+        player.isCraftingOpen = false;
+    }
 });
 closeCraftingButton.addEventListener('click', () => {
-  player.isCraftingOpen = false;
+    player.isCraftingOpen = false;
 });
-dragElement(craftingWindow, dragzone);
+document.addEventListener('contextmenu', (event) => event.preventDefault());
+dragElement(craftingWindow, craftingWindow);
 createObstacles(canvas, 25);
 updateInventory();
 updateGame();

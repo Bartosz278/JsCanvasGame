@@ -6,15 +6,19 @@ export function collectItem(index) {
     const item = Object.assign({}, interactiveObstacles.splice(index, 1)[0]);
     let added = false;
     for (let i = 0; i < inventory.length; i++) {
-        if (inventory[i] && inventory[i].name == item.name) {
-            inventory[i].count++;
+        if (inventory[i] && inventory[i].name === item.name) {
+            inventory[i].count += 1;
             added = true;
             break;
         }
-        else if (!inventory[i]) {
-            inventory[i] = Object.assign(Object.assign({}, item), { count: 1 });
-            added = true;
-            break;
+    }
+    if (!added) {
+        for (let i = 0; i < inventory.length; i++) {
+            if (!inventory[i]) {
+                inventory[i] = Object.assign(Object.assign({}, item), { count: 1 });
+                added = true;
+                break;
+            }
         }
     }
     if (!added) {

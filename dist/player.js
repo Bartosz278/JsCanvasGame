@@ -25,8 +25,6 @@ export class Player {
         this.distance = Math.sqrt(Math.pow(this.mouseX - this.x - 15, 2) +
             Math.pow(this.mouseY - this.y - 15, 2));
         this.isCraftingOpen = false;
-        this.cameraX = 0;
-        this.cameraY = 0;
     }
     drawPlayer() {
         this.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
@@ -99,12 +97,8 @@ export class Player {
             newX += this.speed;
         }
         if (keysPressed['g']) {
-            this.drawBuildRange();
-            console.log(this.mouseX);
-            console.log(this.mouseY);
-            console.log(this.interactiveObstacles);
         }
-        if (!this.isCollidingWithObstacle(this.interactiveObstacles, newX, newY, this.cameraX, this.cameraY)) {
+        if (!this.isCollidingWithObstacle(this.interactiveObstacles, newX, newY)) {
             this.x = newX;
             this.y = newY;
         }
@@ -115,8 +109,7 @@ export class Player {
     tryCollecting() {
         for (let i = this.interactiveObstacles.length - 1; i >= 0; i--) {
             let obstacle = this.interactiveObstacles[i];
-            let distance = Math.sqrt(Math.pow(this.x - this.width / 2 - obstacle.x, 2) +
-                Math.pow(this.y - this.height / 2 - obstacle.y, 2));
+            let distance = Math.sqrt(Math.pow(this.x - obstacle.x, 2) + Math.pow(this.y - obstacle.y, 2));
             if (distance < 50) {
                 this.isCollecting = true;
                 this.showCollectInfo('infoBox', true, 'Collecting...', this.x + 20, this.y - 20);

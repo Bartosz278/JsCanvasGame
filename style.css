@@ -81,7 +81,7 @@ canvas {
   display: none;
   justify-content: space-around;
   bottom: 50px;
-  left: 150px;
+  left: 50px;
 }
 #closeCraftingButton {
   position: absolute;

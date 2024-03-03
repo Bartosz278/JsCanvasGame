@@ -1,5 +1,5 @@
-import { player } from './game.js';
-import { Player } from './player.js';
+import { player } from './game';
+import { Player } from './player';
 
 const interactiveObstacles: any[] = [];
 
@@ -21,41 +21,21 @@ export function showCollectInfo(
   }
 }
 
-// export function isCollidingWithObstacle(
-//   interactiveObstacles: any[],
-//   newX: number,
-//   newY: number
-// ): boolean {
-
-//   return interactiveObstacles.some((obstacle) => {
-//     return (
-//       newX < obstacle.x + obstacle.width &&
-//       newX + this.width > obstacle.x &&
-//       newY < obstacle.y + obstacle.height &&
-//       newY + this.height > obstacle.y
-//     );
-//   });
-// }
 export function isCollidingWithObstacle(
   interactiveObstacles: any[],
   newX: number,
-  newY: number,
-  cameraX: number, // Dodajemy przesunięcie kamery jako argumenty
-  cameraY: number
+  newY: number
 ): boolean {
   return interactiveObstacles.some((obstacle) => {
-    // Przesunięcie pozycji obiektu o wartości kamery
-    let obstacleX = obstacle.x - cameraX;
-    let obstacleY = obstacle.y - cameraY;
-
     return (
-      newX < obstacleX + obstacle.width &&
-      newX + this.width > obstacleX &&
-      newY < obstacleY + obstacle.height &&
-      newY + this.height > obstacleY
+      newX < obstacle.x + obstacle.width &&
+      newX + this.width > obstacle.x &&
+      newY < obstacle.y + obstacle.height &&
+      newY + this.height > obstacle.y
     );
   });
 }
+
 export function checkCollectibleProximity(
   interactiveObstacles: any[],
   player: any
@@ -102,11 +82,3 @@ export const dragElement = (element, dragzone) => {
   };
   dragzone.onmousedown = dragMouseDown;
 };
-
-export function drawBackground(
-  ctx: CanvasRenderingContext2D,
-  image: HTMLImageElement,
-  player: Player
-) {
-  ctx.drawImage(image, player.x - 500, player.y - 500, 1000, 600);
-}
