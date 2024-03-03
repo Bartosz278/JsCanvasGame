@@ -31,7 +31,7 @@ export const blocks: Block[] = [
     canPlace: false
   },
   {
-    name: 'wall',
+    name: 'wall3',
     height: 48,
     width: 33,
     diggingTime: 500,

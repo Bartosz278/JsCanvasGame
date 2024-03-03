@@ -4,7 +4,7 @@ import {interactiveObstacles,createObstacles,drawObstacles} from './objects.js';
 //prettier-ignore
 import {collectItem,updateInventory,useItem,isHoldingItem,cursorItems,inventory,setIsHoldingItem,setCursorItems,getCursorItems} from './inventory.js';
 //prettier-ignore
-import {checkCollectibleProximity,showCollectInfo,isCollidingWithObstacle, dragElement, drawBackground} from './utils.js';
+import {checkCollectibleProximity,showCollectInfo,isCollidingWithObstacle, dragElement} from './utils.js';
 //prettier-ignore
 import { Block, blocks } from './blocks.js';
 //prettier-ignore
@@ -18,8 +18,8 @@ const infoBox: HTMLElement = document.getElementById('infoBox');
 export const inventoryEl: HTMLElement = document.getElementById('inventory');
 const backgroundImage: HTMLImageElement = new Image();
 const crafingIcon: HTMLElement = document.querySelector('#crafting');
-export const craftingWindow: HTMLElement =
-  document.querySelector('#craftingWindow');
+const craftingWindow: HTMLElement = document.querySelector('#craftingWindow');
+const dragzone = document;
 const closeCraftingButton: HTMLElement = document.querySelector(
   '#closeCraftingButton'
 );
@@ -52,8 +52,6 @@ function clearCanvas(): void {
 }
 
 function updateGame(): void {
-  debugger;
-  updateCamera();
   clearCanvas();
   // drawBackground(ctx, backgroundImage, player);
   player.move(keysPressed);
@@ -116,5 +114,7 @@ function updateCamera() {
 
 dragElement(craftingWindow, craftingWindow);
 createObstacles(canvas, 100);
+dragElement(craftingWindow, dragzone);
+createObstacles(canvas, 25);
 updateInventory();
 updateGame();
