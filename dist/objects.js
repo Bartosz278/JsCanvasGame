@@ -1,6 +1,6 @@
 export const interactiveObstacles = [];
 import { blocks } from './blocks.js';
-export function createObstacles(canvas, quantity) {
+export function createObstacles(quantity, neededBlock) {
     for (let i = 0; i < quantity; i++) {
         const randomNumber = Math.floor(Math.random() * 100);
         let chosenBlock;
@@ -11,6 +11,9 @@ export function createObstacles(canvas, quantity) {
                 chosenBlock = block;
                 break;
             }
+        }
+        if (neededBlock) {
+            chosenBlock = neededBlock;
         }
         if (chosenBlock) {
             const obstacle = {

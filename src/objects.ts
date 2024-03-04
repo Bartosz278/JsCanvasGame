@@ -9,13 +9,11 @@ export const interactiveObstacles: {
   count: number;
   image: HTMLImageElement;
   canPlace: boolean;
+  method?: () => void;
 }[] = [];
 import { Block, blocks } from './blocks.js';
 
-export function createObstacles(
-  canvas: HTMLCanvasElement,
-  quantity: number
-): void {
+export function createObstacles(quantity: number, neededBlock?: Block): void {
   for (let i: number = 0; i < quantity; i++) {
     const randomNumber = Math.floor(Math.random() * 100);
     let chosenBlock: Block | undefined;
@@ -26,6 +24,9 @@ export function createObstacles(
         chosenBlock = block;
         break;
       }
+    }
+    if (neededBlock) {
+      chosenBlock = neededBlock;
     }
 
     if (chosenBlock) {

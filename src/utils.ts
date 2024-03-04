@@ -1,8 +1,3 @@
-import { player } from './game';
-import { Player } from './player';
-
-const interactiveObstacles: any[] = [];
-
 export function showCollectInfo(
   elementId: string,
   show: boolean,
@@ -36,21 +31,44 @@ export function isCollidingWithObstacle(
   });
 }
 
+// export function checkCollectibleProximity(
+//   interactiveObstacles: any[],
+//   player: any
+// ): void {
+//   let isNearCollectible = false;
+//   interactiveObstacles.forEach((obstacle) => {
+//     let distance = Math.sqrt(
+//       (player.x + 15 - obstacle.x + obstacle.width / 2) ** 2 +
+//         (player.y + 15 - obstacle.y + obstacle.height / 2) ** 2
+//     );
+//     if (distance < 50) {
+//       isNearCollectible = true;
+//     }
+//   });
+//   if (!isNearCollectible) {
+//   }
+// }
+
 export function checkCollectibleProximity(
   interactiveObstacles: any[],
   player: any
-): void {
-  let isNearCollectible = false;
+): any {
+  let nearestCollectible = null;
+  let nearestDistance = Infinity;
+
   interactiveObstacles.forEach((obstacle) => {
     let distance = Math.sqrt(
-      (player.x - obstacle.x) ** 2 + (player.y - obstacle.y) ** 2
+      (player.x + 15 - obstacle.x - obstacle.width / 2) ** 2 +
+        (player.y + 15 - obstacle.y - obstacle.height / 2) ** 2
     );
+    if (distance < nearestDistance) {
+      nearestDistance = distance;
+      nearestCollectible = obstacle;
+    }
     if (distance < 50) {
-      isNearCollectible = true;
+      player.closestItem = nearestCollectible;
     }
   });
-  if (!isNearCollectible) {
-  }
 }
 
 export const dragElement = (element, dragzone) => {

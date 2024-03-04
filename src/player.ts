@@ -1,10 +1,20 @@
 import { interactiveObstacles } from './objects.js';
 //prettier-ignore
-import {Item,cursorItems,inventory,isHoldingItem,useItem,setIsHoldingItem,getIsHoldingItem} from './inventory';
+import {Item,cursorItems,inventory,isHoldingItem,useItem,setIsHoldingItem,getIsHoldingItem} from './inventory.js';
+import { checkCollectibleProximity } from './utils.js';
+import { craftableItems } from './items-in-crafting.js';
 interface Obstacle {
+  name: string;
   x: number;
   y: number;
+  height: number;
+  width: number;
   digTime: number;
+  interactive: boolean;
+  count: number;
+  image: HTMLImageElement;
+  canPlace: boolean;
+  method?: () => void;
 }
 
 export class Player {
@@ -43,6 +53,9 @@ export class Player {
   cursorImage: HTMLImageElement;
   distance: number;
   isCraftingOpen: boolean;
+  closestItem: any;
+  day: number;
+  functionIsExecuted: boolean;
 
   constructor(
     ctx: CanvasRenderingContext2D,
@@ -95,6 +108,8 @@ export class Player {
         Math.pow(this.mouseY - this.y - 15, 2)
     );
     this.isCraftingOpen = false;
+    this.day = 1;
+    this.functionIsExecuted = false;
   }
 
   drawPlayer(): void {
@@ -139,7 +154,8 @@ export class Player {
           interactive: this.getCursorItems().interactive,
           count: 0,
           image: new Image(),
-          canPlace: this.getCursorItems().canPlace
+          canPlace: this.getCursorItems().canPlace,
+          method: this.getCursorItems().method
         };
         obstacle.image.src = `assets/${this.cursorItems.name}.webp`;
         this.interactiveObstacles.push(obstacle);
@@ -181,8 +197,27 @@ export class Player {
       newX += this.speed;
     }
     if (keysPressed['g']) {
-      document.getElementById('night').style.opacity = '100%';
-      document.getElementById('night2').style.opacity = '50%';
+      console.log(interactiveObstacles);
+      console.log(interactiveObstacles.length);
+      inventory[9] = {
+        name: craftableItems[1].name,
+        x: 0,
+        y: 0,
+        height: craftableItems[1].height,
+        width: craftableItems[1].width,
+        digTime: craftableItems[1].diggingTime,
+        interactive: craftableItems[1].interactive,
+        count: 1,
+        canPlace: craftableItems[1].canPlace,
+        method: craftableItems[1].method
+      };
+    }
+    if (keysPressed['e'] && !this.functionIsExecuted) {
+      if (this.closestItem.interactive == true) {
+        this.closestItem.method();
+        this.day++;
+        this.functionIsExecuted = true;
+      }
     }
     if (
       newY - this.speed <= 0 ||

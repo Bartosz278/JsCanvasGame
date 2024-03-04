@@ -28,8 +28,8 @@ backgroundImage.onload = function () {
   ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
 };
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight * 0.85;
+canvas.width = window.innerWidth * 0.96;
+canvas.height = window.innerHeight * 0.9;
 const playerImg: HTMLImageElement = new Image();
 playerImg.src = 'assets/character.webp';
 
@@ -59,6 +59,7 @@ function updateGame(): void {
   player.drawBuildRange();
   player.isHoldingItem = isHoldingItem;
   player.cursorItems = getCursorItems();
+  player.closestItem = checkCollectibleProximity;
   drawObstacles(ctx);
   drawCraftingWindow(player, craftingWindow);
   checkCollectibleProximity(interactiveObstacles, player);
@@ -66,12 +67,13 @@ function updateGame(): void {
 }
 
 let keysPressed = {};
-document.addEventListener('keypress', (event: KeyboardEvent) => {
+document.addEventListener('keydown', (event: KeyboardEvent) => {
   keysPressed[event.key] = true;
   player.drawBuildRange();
 });
 document.addEventListener('keyup', (event: KeyboardEvent) => {
   delete keysPressed[event.key];
+  player.functionIsExecuted = false;
 });
 canvas.addEventListener('mousemove', (event) => {
   player.mouseX = event.offsetX;
@@ -93,8 +95,13 @@ closeCraftingButton.addEventListener('click', () => {
 });
 
 document.addEventListener('contextmenu', (event) => event.preventDefault());
+document.addEventListener('click', (event: KeyboardEvent) => {
+  if (event.key == 'e' && player.closestItem.interactive == true) {
+    player.closestItem.method();
+  }
+});
 
 dragElement(craftingWindow, craftingWindow);
-createObstacles(canvas, 25);
+createObstacles(30);
 updateInventory();
 updateGame();

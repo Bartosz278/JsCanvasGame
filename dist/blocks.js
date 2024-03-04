@@ -4,7 +4,7 @@ export const blocks = [
         height: 40,
         width: 40,
         diggingTime: 1000,
-        interactive: true,
+        interactive: false,
         image: new Image(),
         spawnChance: 50,
         canPlace: false
@@ -14,7 +14,7 @@ export const blocks = [
         height: 40,
         width: 40,
         diggingTime: 2000,
-        interactive: true,
+        interactive: false,
         image: new Image(),
         spawnChance: 30,
         canPlace: false
