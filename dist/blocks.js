@@ -7,7 +7,8 @@ export const blocks = [
         interactive: false,
         image: new Image(),
         spawnChance: 50,
-        canPlace: false
+        canPlace: false,
+        canCollect: true
     },
     {
         name: 'stone',
@@ -17,7 +18,8 @@ export const blocks = [
         interactive: false,
         image: new Image(),
         spawnChance: 30,
-        canPlace: false
+        canPlace: false,
+        canCollect: true
     },
     {
         name: 'wall',
@@ -27,6 +29,7 @@ export const blocks = [
         interactive: false,
         image: new Image(),
         spawnChance: 20,
-        canPlace: true
+        canPlace: true,
+        canCollect: true
     }
 ];

@@ -7,6 +7,7 @@ import { collectItem, updateInventory, isHoldingItem, cursorItems, setIsHoldingI
 import { checkCollectibleProximity, showCollectInfo, isCollidingWithObstacle, dragElement } from './utils.js';
 //prettier-ignore
 import { drawCraftingWindow } from './crafting.js';
+import { initEnemies } from './mobs.js';
 let canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 const infoBox = document.getElementById('infoBox');
@@ -27,10 +28,15 @@ export let player = new Player(ctx, playerImg, canvas, isCollidingWithObstacle, 
 function clearCanvas() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
+let enemies = initEnemies();
 function updateGame() {
     clearCanvas();
     player.move(keysPressed);
     player.drawPlayer();
+    enemies.forEach((enemy) => {
+        enemy.update();
+        enemy.draw();
+    });
     player.drawBuildRange();
     player.isHoldingItem = isHoldingItem;
     player.cursorItems = getCursorItems();

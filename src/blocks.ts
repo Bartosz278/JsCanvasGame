@@ -7,6 +7,7 @@ export interface Block {
   image: HTMLImageElement;
   spawnChance: number;
   canPlace: boolean;
+  canCollect: boolean;
   method?: () => void;
 }
 
@@ -19,7 +20,8 @@ export const blocks: Block[] = [
     interactive: false,
     image: new Image(),
     spawnChance: 50,
-    canPlace: false
+    canPlace: false,
+    canCollect: true
   },
   {
     name: 'stone',
@@ -29,7 +31,8 @@ export const blocks: Block[] = [
     interactive: false,
     image: new Image(),
     spawnChance: 30,
-    canPlace: false
+    canPlace: false,
+    canCollect: true
   },
   {
     name: 'wall',
@@ -39,6 +42,7 @@ export const blocks: Block[] = [
     interactive: false,
     image: new Image(),
     spawnChance: 20,
-    canPlace: true
+    canPlace: true,
+    canCollect: true
   }
 ];

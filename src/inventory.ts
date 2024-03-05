@@ -12,6 +12,7 @@ export interface Item {
   interactive: boolean;
   count: number;
   canPlace: boolean;
+  canCollect?: boolean;
   method?: () => void;
 }
 

@@ -18,23 +18,6 @@ export function isCollidingWithObstacle(interactiveObstacles, newX, newY) {
             newY + this.height > obstacle.y);
     });
 }
-// export function checkCollectibleProximity(
-//   interactiveObstacles: any[],
-//   player: any
-// ): void {
-//   let isNearCollectible = false;
-//   interactiveObstacles.forEach((obstacle) => {
-//     let distance = Math.sqrt(
-//       (player.x + 15 - obstacle.x + obstacle.width / 2) ** 2 +
-//         (player.y + 15 - obstacle.y + obstacle.height / 2) ** 2
-//     );
-//     if (distance < 50) {
-//       isNearCollectible = true;
-//     }
-//   });
-//   if (!isNearCollectible) {
-//   }
-// }
 export function checkCollectibleProximity(interactiveObstacles, player) {
     let nearestCollectible = null;
     let nearestDistance = Infinity;

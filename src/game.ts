@@ -9,6 +9,11 @@ import {checkCollectibleProximity,showCollectInfo,isCollidingWithObstacle, dragE
 import { Block, blocks } from './blocks.js';
 //prettier-ignore
 import { drawCraftingWindow, moveWindow } from './crafting.js';
+//prettier-ignore
+// import { enemies } from './mobs.js';
+//prettier-ignore
+import { Enemy } from './enemy.js';
+import { initEnemies } from './mobs.js';
 
 let canvas: HTMLCanvasElement = document.getElementById(
   'gameCanvas'
@@ -52,10 +57,15 @@ function clearCanvas(): void {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
+let enemies = initEnemies();
 function updateGame(): void {
   clearCanvas();
   player.move(keysPressed);
   player.drawPlayer();
+  enemies.forEach((enemy) => {
+    enemy.update();
+    enemy.draw();
+  });
   player.drawBuildRange();
   player.isHoldingItem = isHoldingItem;
   player.cursorItems = getCursorItems();

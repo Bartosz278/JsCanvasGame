@@ -3,7 +3,7 @@ import { interactiveObstacles } from './objects.js';
 import {Item,cursorItems,inventory,isHoldingItem,useItem,setIsHoldingItem,getIsHoldingItem} from './inventory.js';
 import { checkCollectibleProximity } from './utils.js';
 import { craftableItems } from './items-in-crafting.js';
-interface Obstacle {
+export interface Obstacle {
   name: string;
   x: number;
   y: number;
@@ -14,6 +14,7 @@ interface Obstacle {
   count: number;
   image: HTMLImageElement;
   canPlace: boolean;
+  canCollect: boolean;
   method?: () => void;
 }
 
@@ -155,6 +156,7 @@ export class Player {
           count: 0,
           image: new Image(),
           canPlace: this.getCursorItems().canPlace,
+          canCollect: this.getCursorItems().canCollect,
           method: this.getCursorItems().method
         };
         obstacle.image.src = `assets/${this.cursorItems.name}.webp`;
@@ -197,8 +199,6 @@ export class Player {
       newX += this.speed;
     }
     if (keysPressed['g']) {
-      console.log(interactiveObstacles);
-      console.log(interactiveObstacles.length);
       inventory[9] = {
         name: craftableItems[1].name,
         x: 0,
@@ -209,8 +209,10 @@ export class Player {
         interactive: craftableItems[1].interactive,
         count: 1,
         canPlace: craftableItems[1].canPlace,
+        canCollect: craftableItems[1].canCollect,
         method: craftableItems[1].method
       };
+      console.log(interactiveObstacles);
     }
     if (keysPressed['e'] && !this.functionIsExecuted) {
       if (this.closestItem.interactive == true) {
@@ -243,7 +245,7 @@ export class Player {
       let distance = Math.sqrt(
         Math.pow(this.x - obstacle.x, 2) + Math.pow(this.y - obstacle.y, 2)
       );
-      if (distance < 50) {
+      if (distance < 50 && obstacle.canCollect == true) {
         this.isCollecting = true;
         this.showCollectInfo(
           'infoBox',

@@ -18,15 +18,16 @@ export function createObstacles(quantity, neededBlock) {
         if (chosenBlock) {
             const obstacle = {
                 name: chosenBlock.name,
-                x: Math.random() * (window.innerWidth * 0.9 - 20),
-                y: Math.random() * (window.innerHeight * 0.75 - 20),
+                x: Math.random() * (window.innerWidth * 0.96 - 20),
+                y: Math.random() * (window.innerHeight * 0.9 - 20),
                 height: chosenBlock.height,
                 width: chosenBlock.width,
                 digTime: chosenBlock.diggingTime,
                 interactive: chosenBlock.interactive,
                 count: 0,
                 image: new Image(),
-                canPlace: chosenBlock.canPlace
+                canPlace: chosenBlock.canPlace,
+                canCollect: chosenBlock.canCollect
             };
             obstacle.image.src = `assets/${obstacle.name}.webp`;
             interactiveObstacles.push(obstacle);

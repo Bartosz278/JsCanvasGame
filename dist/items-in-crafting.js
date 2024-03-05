@@ -11,6 +11,7 @@ export const craftableItems = [
         interactive: false,
         image: new Image(),
         canPlace: true,
+        canCollect: true,
         requiredItems: [{ name: 'stone', count: 2 }]
     },
     {
@@ -21,6 +22,7 @@ export const craftableItems = [
         interactive: true,
         image: new Image(),
         canPlace: true,
+        canCollect: true,
         requiredItems: [{ name: 'tree', count: 4 }],
         method: () => {
             player.functionIsExecuted = true;
@@ -65,6 +67,7 @@ export const craftableItems = [
         interactive: true,
         image: new Image(),
         canPlace: true,
+        canCollect: true,
         requiredItems: [
             { name: 'tree', count: 4 },
             { name: 'stone', count: 3 }
