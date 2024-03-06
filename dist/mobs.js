@@ -6,19 +6,17 @@ export function initEnemies() {
     const enemyImage = new Image();
     enemyImage.src = 'assets/goblin.webp';
     let enemies = [];
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i < 10; i++) {
         let name = 'goblin';
         const x = Math.random() * player.canvas.width;
         const y = Math.random() * player.canvas.height;
         const health = 100;
-        const speed = 1;
+        const speed = 0.5;
         const width = 40;
         const height = 40;
         const isCollidingWithObstacle2 = isCollidingWithObstacle;
         let enemy = new Enemy(name, x, y, width, height, enemyImage, health, speed, interactiveObstacles, isCollidingWithObstacle2);
-        console.log(interactiveObstacles);
         enemies.push(enemy);
-        // interactiveObstacles.push(enemy);
     }
     return enemies;
 }

@@ -27,7 +27,8 @@ export function createObstacles(quantity, neededBlock) {
                 count: 0,
                 image: new Image(),
                 canPlace: chosenBlock.canPlace,
-                canCollect: chosenBlock.canCollect
+                canCollect: chosenBlock.canCollect,
+                type: chosenBlock.type
             };
             obstacle.image.src = `assets/${obstacle.name}.webp`;
             interactiveObstacles.push(obstacle);

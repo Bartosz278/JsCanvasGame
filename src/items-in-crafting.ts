@@ -14,6 +14,7 @@ export interface CraftableItem {
   canCollect: boolean;
   requiredItems: { name: string; count: number }[];
   method?: () => void;
+  type: string;
 }
 
 export const craftableItems: CraftableItem[] = [
@@ -26,7 +27,8 @@ export const craftableItems: CraftableItem[] = [
     image: new Image(),
     canPlace: true,
     canCollect: true,
-    requiredItems: [{ name: 'stone', count: 2 }]
+    requiredItems: [{ name: 'stone', count: 2 }],
+    type: 'block'
   },
   {
     name: 'bed',
@@ -77,7 +79,8 @@ export const craftableItems: CraftableItem[] = [
         showCollectInfo('days', false, 'Day 1', player.canvas.width / 2, 10);
         player.functionIsExecuted = false;
       }, 8500);
-    }
+    },
+    type: 'block'
   },
   {
     name: 'pickaxe',
@@ -91,6 +94,7 @@ export const craftableItems: CraftableItem[] = [
     requiredItems: [
       { name: 'tree', count: 4 },
       { name: 'stone', count: 3 }
-    ]
+    ],
+    type: 'block'
   }
 ];

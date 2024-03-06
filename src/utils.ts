@@ -19,9 +19,13 @@ export function showCollectInfo(
 export function isCollidingWithObstacle(
   interactiveObstacles: any[],
   newX: number,
-  newY: number
+  newY: number,
+  collidingType?: string
 ): boolean {
   return interactiveObstacles.some((obstacle) => {
+    if (obstacle.type === collidingType) {
+      return false;
+    }
     return (
       newX < obstacle.x + obstacle.width &&
       newX + this.width > obstacle.x &&

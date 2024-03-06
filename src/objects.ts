@@ -11,6 +11,7 @@ export const interactiveObstacles: {
   canPlace: boolean;
   canCollect: boolean;
   method?: () => void;
+  type: string;
 }[] = [];
 import { Block, blocks } from './blocks.js';
 
@@ -42,7 +43,8 @@ export function createObstacles(quantity: number, neededBlock?: Block): void {
         count: 0,
         image: new Image(),
         canPlace: chosenBlock.canPlace,
-        canCollect: chosenBlock.canCollect
+        canCollect: chosenBlock.canCollect,
+        type: chosenBlock.type
       };
       obstacle.image.src = `assets/${obstacle.name}.webp`;
       interactiveObstacles.push(obstacle);

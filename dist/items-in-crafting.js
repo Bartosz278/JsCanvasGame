@@ -12,7 +12,8 @@ export const craftableItems = [
         image: new Image(),
         canPlace: true,
         canCollect: true,
-        requiredItems: [{ name: 'stone', count: 2 }]
+        requiredItems: [{ name: 'stone', count: 2 }],
+        type: 'block'
     },
     {
         name: 'bed',
@@ -57,7 +58,8 @@ export const craftableItems = [
                 showCollectInfo('days', false, 'Day 1', player.canvas.width / 2, 10);
                 player.functionIsExecuted = false;
             }, 8500);
-        }
+        },
+        type: 'block'
     },
     {
         name: 'pickaxe',
@@ -71,6 +73,7 @@ export const craftableItems = [
         requiredItems: [
             { name: 'tree', count: 4 },
             { name: 'stone', count: 3 }
-        ]
+        ],
+        type: 'block'
     }
 ];

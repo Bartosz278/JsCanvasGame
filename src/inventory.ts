@@ -14,6 +14,7 @@ export interface Item {
   canPlace: boolean;
   canCollect?: boolean;
   method?: () => void;
+  type: string;
 }
 
 export const inventory: Item[] = Array(10).fill(null);

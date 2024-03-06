@@ -65,6 +65,14 @@ function updateGame(): void {
   enemies.forEach((enemy) => {
     enemy.update();
     enemy.draw();
+    enemies.forEach((enemy) => {
+      checkCollectibleProximity(interactiveObstacles, enemy);
+    });
+    for (let i = 0; i < enemies.length; i++) {
+      if (enemies[i].moveFunctionIsCalled == true) {
+        enemies[i].randomMove(0.9);
+      }
+    }
   });
   player.drawBuildRange();
   player.isHoldingItem = isHoldingItem;
@@ -110,7 +118,9 @@ document.addEventListener('click', (event: KeyboardEvent) => {
     player.closestItem.method();
   }
 });
-
+enemies.forEach((enemy) => {
+  enemy.randomizer();
+});
 dragElement(craftingWindow, craftingWindow);
 createObstacles(30);
 updateInventory();

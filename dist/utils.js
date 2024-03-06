@@ -10,8 +10,11 @@ export function showCollectInfo(elementId, show, text, x, y) {
         infoBox.style.display = 'none';
     }
 }
-export function isCollidingWithObstacle(interactiveObstacles, newX, newY) {
+export function isCollidingWithObstacle(interactiveObstacles, newX, newY, collidingType) {
     return interactiveObstacles.some((obstacle) => {
+        if (obstacle.type === collidingType) {
+            return false;
+        }
         return (newX < obstacle.x + obstacle.width &&
             newX + this.width > obstacle.x &&
             newY < obstacle.y + obstacle.height &&

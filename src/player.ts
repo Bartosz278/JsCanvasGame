@@ -16,6 +16,7 @@ export interface Obstacle {
   canPlace: boolean;
   canCollect: boolean;
   method?: () => void;
+  type: string;
 }
 
 export class Player {
@@ -157,7 +158,8 @@ export class Player {
           image: new Image(),
           canPlace: this.getCursorItems().canPlace,
           canCollect: this.getCursorItems().canCollect,
-          method: this.getCursorItems().method
+          method: this.getCursorItems().method,
+          type: this.getCursorItems().type
         };
         obstacle.image.src = `assets/${this.cursorItems.name}.webp`;
         this.interactiveObstacles.push(obstacle);
@@ -210,7 +212,8 @@ export class Player {
         count: 1,
         canPlace: craftableItems[1].canPlace,
         canCollect: craftableItems[1].canCollect,
-        method: craftableItems[1].method
+        method: craftableItems[1].method,
+        type: craftableItems[1].type
       };
       console.log(interactiveObstacles);
     }

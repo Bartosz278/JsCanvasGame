@@ -8,7 +8,8 @@ export const blocks = [
         image: new Image(),
         spawnChance: 50,
         canPlace: false,
-        canCollect: true
+        canCollect: true,
+        type: 'block'
     },
     {
         name: 'stone',
@@ -19,7 +20,8 @@ export const blocks = [
         image: new Image(),
         spawnChance: 30,
         canPlace: false,
-        canCollect: true
+        canCollect: true,
+        type: 'block'
     },
     {
         name: 'wall',
@@ -30,6 +32,7 @@ export const blocks = [
         image: new Image(),
         spawnChance: 20,
         canPlace: true,
-        canCollect: true
+        canCollect: true,
+        type: 'block'
     }
 ];
