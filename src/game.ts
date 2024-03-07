@@ -57,7 +57,7 @@ function clearCanvas(): void {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
-let enemies = initEnemies();
+export let enemies = initEnemies();
 function updateGame(): void {
   clearCanvas();
   player.move(keysPressed);
@@ -68,10 +68,9 @@ function updateGame(): void {
     enemies.forEach((enemy) => {
       checkCollectibleProximity(interactiveObstacles, enemy);
     });
-    for (let i = 0; i < enemies.length; i++) {
-      if (enemies[i].moveFunctionIsCalled == true) {
-        enemies[i].randomMove(0.9);
-      }
+
+    if (enemy.moveFunctionIsCalled == false) {
+      enemy.randomMove(0.5);
     }
   });
   player.drawBuildRange();

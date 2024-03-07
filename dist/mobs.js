@@ -6,7 +6,7 @@ export function initEnemies() {
     const enemyImage = new Image();
     enemyImage.src = 'assets/goblin.webp';
     let enemies = [];
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 5; i++) {
         let name = 'goblin';
         const x = Math.random() * player.canvas.width;
         const y = Math.random() * player.canvas.height;

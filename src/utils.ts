@@ -1,3 +1,8 @@
+import { Enemy } from './enemy';
+import { enemies } from './game';
+import { interactiveObstacles } from './objects';
+import { Obstacle } from './player';
+
 export function showCollectInfo(
   elementId: string,
   show: boolean,
@@ -86,3 +91,17 @@ export const dragElement = (element, dragzone) => {
   };
   dragzone.onmousedown = dragMouseDown;
 };
+function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+export async function destroyObstacle() {
+  let indexDoUsuniecia = this.interactiveObstacles.findIndex(
+    (obiekt: Obstacle) => obiekt.x === this.closestItem.x
+  );
+
+  if (indexDoUsuniecia !== -1) {
+    setTimeout(() => {
+      this.interactiveObstacles.splice(indexDoUsuniecia, 1);
+    }, this.closestItem.diggingTime / this.strength);
+  }
+}

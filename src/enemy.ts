@@ -1,7 +1,8 @@
 import { player } from './game.js';
-import { isCollidingWithObstacle } from './utils.js';
+import { destroyObstacle, isCollidingWithObstacle } from './utils.js';
 import { interactiveObstacles } from './objects.js';
 import { Obstacle } from './player.js';
+import { enemies } from './game.js';
 export class Enemy {
   name: string;
   x: number;
@@ -28,6 +29,9 @@ export class Enemy {
   closestItem: Obstacle;
   moveFunctionIsCalled: boolean;
   directionIndex: number;
+  chanceToMove: number;
+  destroyObstacle: () => void;
+  strength: number;
 
   constructor(
     name: string,
@@ -58,6 +62,8 @@ export class Enemy {
     this.isCollidingWithObstacle = isCollidingWithObstacle;
     this.type = 'enemy';
     this.moveFunctionIsCalled = true;
+    this.destroyObstacle = destroyObstacle;
+    this.strength = 0.5;
   }
 
   draw() {
@@ -117,6 +123,9 @@ export class Enemy {
           }
         }
       }
+      if (this.isCollidingWithObstacle(this.interactiveObstacles, newX, newY)) {
+        this.destroyObstacle();
+      }
     }
   }
   takeDamage(amount: number) {
@@ -132,14 +141,19 @@ export class Enemy {
   async randomizer() {
     this.moveFunctionIsCalled = false;
     this.directionIndex = Math.floor(Math.random() * 4);
-    await this.delay(1500);
+    enemies.forEach((enemy) => {
+      enemy.chanceToMove = Math.random();
+    });
+    await this.delay(Math.random() * 4500);
+    this.moveFunctionIsCalled = null;
+    await this.delay(Math.random() * 1400);
     this.moveFunctionIsCalled = true;
-    await this.delay(8000);
+    await this.delay(Math.random() * 5500);
     this.randomizer();
   }
 
   randomMove(chance: number) {
-    if (Math.random() < chance) {
+    if (this.chanceToMove < chance) {
       let directions = [
         { dx: this.speed, dy: 0 }, // prawo
         { dx: -this.speed, dy: 0 }, // lewo
