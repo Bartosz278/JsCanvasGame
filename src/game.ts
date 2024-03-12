@@ -18,7 +18,7 @@ import { mobs } from './mobs.js';
 let canvas: HTMLCanvasElement = document.getElementById(
   'gameCanvas'
 ) as HTMLCanvasElement;
-const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
+export const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
 const infoBox: HTMLElement = document.getElementById('infoBox');
 export const inventoryEl: HTMLElement = document.getElementById('inventory');
 const backgroundImage: HTMLImageElement = new Image();
@@ -38,6 +38,7 @@ canvas.width = window.innerWidth * 0.96;
 canvas.height = window.innerHeight * 0.9;
 const playerImg: HTMLImageElement = new Image();
 playerImg.src = 'assets/character.webp';
+export const closestEnemies = [];
 
 export let player: Player = new Player(
   ctx,
@@ -58,7 +59,7 @@ function clearCanvas(): void {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
-initEnemies(mobs[0], 26);
+initEnemies(mobs[0], 2);
 export function updateGame(): void {
   clearCanvas();
   player.move(keysPressed);
@@ -66,10 +67,7 @@ export function updateGame(): void {
   enemies.forEach((enemy) => {
     enemy.update();
     enemy.draw();
-    enemies.forEach((enemy) => {
-      checkCollectibleProximity(interactiveObstacles, enemy);
-    });
-
+    checkCollectibleProximity(interactiveObstacles, enemy);
     if (enemy.moveFunctionIsCalled == false) {
       enemy.randomMove(0.5);
     }
@@ -91,6 +89,8 @@ export function updateGame(): void {
     gameOverDiv.style.display = 'flex';
     return;
   }
+  player.distanceToEnemies();
+
   requestAnimationFrame(updateGame);
 }
 

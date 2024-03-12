@@ -47,7 +47,7 @@ function addItemToInventory(craftableItem) {
                     y: 0,
                     height: craftableItem.height,
                     width: craftableItem.width,
-                    digTime: craftableItem.diggingTime,
+                    digTime: craftableItem.digTime,
                     interactive: craftableItem.interactive,
                     count: 1,
                     canPlace: craftableItem.canPlace,

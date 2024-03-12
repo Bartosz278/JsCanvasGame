@@ -2,7 +2,6 @@ import { player } from './game.js';
 import { destroyObstacle, isCollidingWithObstacle, updateHP } from './utils.js';
 import { interactiveObstacles } from './objects.js';
 import { Obstacle } from './player.js';
-// import { enemies } from './game.js';
 
 export interface Mob {
   name: string;

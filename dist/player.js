@@ -2,7 +2,8 @@ import { interactiveObstacles } from './objects.js';
 //prettier-ignore
 import { inventory } from './inventory.js';
 import { craftableItems } from './items-in-crafting.js';
-import { player } from './game.js';
+import { closestEnemies, player } from './game.js';
+import { enemies } from './enemy.js';
 export class Player {
     constructor(ctx, img, canvas, isCollidingWithObstacle, interactiveObstacles, showCollectInfo, collectItem, updateInventory, setIsHoldingItem, setCursorItems, getCursorItems, cursorItems) {
         this.ctx = ctx;
@@ -32,8 +33,9 @@ export class Player {
         this.isCraftingOpen = false;
         this.day = 1;
         this.functionIsExecuted = false;
-        this.hp = 1;
+        this.hp = 100;
         this.getDamage = false;
+        this.canAttack = true;
     }
     drawPlayer() {
         this.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
@@ -110,16 +112,24 @@ export class Player {
         if (keysPressed['d']) {
             newX += this.speed;
         }
+        if (keysPressed['e'] && !this.functionIsExecuted) {
+            if (this.closestItem.interactive == true) {
+                this.closestItem.method();
+                this.functionIsExecuted = true;
+            }
+        }
+        if (keysPressed[' '] && this.canAttack) {
+            this.attack();
+        }
         if (keysPressed['g']) {
-            console.log(interactiveObstacles);
-            console.log(inventory);
+            console.log(this.closestEnemies);
             inventory[9] = {
                 name: craftableItems[1].name,
                 x: 0,
                 y: 0,
                 height: craftableItems[1].height,
                 width: craftableItems[1].width,
-                digTime: craftableItems[1].diggingTime,
+                digTime: craftableItems[1].digTime,
                 interactive: craftableItems[1].interactive,
                 count: 1,
                 canPlace: craftableItems[1].canPlace,
@@ -128,12 +138,6 @@ export class Player {
                 type: craftableItems[1].type
             };
             console.log(interactiveObstacles);
-        }
-        if (keysPressed['e'] && !this.functionIsExecuted) {
-            if (this.closestItem.interactive == true) {
-                this.closestItem.method();
-                this.functionIsExecuted = true;
-            }
         }
         if (newY - this.speed <= 0 ||
             newY + this.speed >= this.canvas.height - 30 ||
@@ -145,7 +149,7 @@ export class Player {
             this.x = newX;
             this.y = newY;
         }
-        if (keysPressed[' '] && !this.isCollecting) {
+        if (keysPressed['q'] && !this.isCollecting) {
             this.tryCollecting();
         }
     }
@@ -192,5 +196,27 @@ export class Player {
             player.x = newCordX;
             player.y = newCordY;
         }
+    }
+    distanceToEnemies() {
+        enemies.forEach((enemy) => {
+            let distance = Math.sqrt(Math.pow((this.x + 15 - enemy.x - enemy.width / 2), 2) +
+                Math.pow((this.y + 15 - enemy.y - enemy.height / 2), 2));
+            if (distance < 75 &&
+                !closestEnemies.some((enemyItem) => enemyItem === enemy)) {
+                closestEnemies.push(enemy);
+            }
+        });
+    }
+    delay(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+    attack() {
+        closestEnemies.forEach((enemy) => {
+            this.canAttack = false;
+            enemy.health -= 10;
+            setTimeout(() => {
+                this.canAttack = true;
+            }, 1000);
+        });
     }
 }

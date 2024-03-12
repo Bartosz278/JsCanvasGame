@@ -29,11 +29,18 @@ export class Enemy {
         this.strength = 0.5;
         this.canAttack = true;
         this.damage = damge;
+        this.canDestroy = true;
     }
     draw() {
         player.ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
     }
     update() {
+        if (this.health <= 0) {
+            let remove = enemies.findIndex((enemy) => enemy.x === this.x);
+            if (remove !== -1) {
+                enemies.splice(remove, 1);
+            }
+        }
         this.distance = Math.sqrt(Math.pow((player.x + 15 - this.x - this.width / 2), 2) +
             Math.pow((player.y + 15 - this.y - this.height / 2), 2));
         if (this.moveFunctionIsCalled) {
@@ -74,6 +81,9 @@ export class Enemy {
                 this.destroyObstacle();
             }
         }
+        player.ctx.fillStyle = 'red';
+        player.ctx.fillRect(this.x, this.y - 12, this.health / 2.5, 5);
+        player.ctx.stroke();
     }
     takeDamage(amount) {
         this.health -= amount;

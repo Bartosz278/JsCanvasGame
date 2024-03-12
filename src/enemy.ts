@@ -2,7 +2,6 @@ import { player } from './game.js';
 import { destroyObstacle, isCollidingWithObstacle, updateHP } from './utils.js';
 import { interactiveObstacles } from './objects.js';
 import { Obstacle } from './player.js';
-// import { enemies } from './game.js';
 import { Mob } from './mobs.js';
 export class Enemy {
   name: string;
@@ -36,6 +35,7 @@ export class Enemy {
   distance: number;
   canAttack: boolean;
   damage: number;
+  canDestroy: boolean;
 
   constructor(
     name: string,
@@ -71,6 +71,7 @@ export class Enemy {
     this.strength = 0.5;
     this.canAttack = true;
     this.damage = damge;
+    this.canDestroy = true;
   }
 
   draw() {
@@ -78,6 +79,13 @@ export class Enemy {
   }
 
   update() {
+    if (this.health <= 0) {
+      let remove = enemies.findIndex((enemy) => enemy.x === this.x);
+
+      if (remove !== -1) {
+        enemies.splice(remove, 1);
+      }
+    }
     this.distance = Math.sqrt(
       (player.x + 15 - this.x - this.width / 2) ** 2 +
         (player.y + 15 - this.y - this.height / 2) ** 2
@@ -134,6 +142,9 @@ export class Enemy {
         this.destroyObstacle();
       }
     }
+    player.ctx.fillStyle = 'red';
+    player.ctx.fillRect(this.x, this.y - 12, this.health / 2.5, 5);
+    player.ctx.stroke();
   }
   takeDamage(amount: number) {
     this.health -= amount;

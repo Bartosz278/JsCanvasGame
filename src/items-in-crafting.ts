@@ -9,7 +9,7 @@ export interface CraftableItem {
   name: string;
   height: number;
   width: number;
-  diggingTime: number;
+  digTime: number;
   interactive: boolean;
   image: HTMLImageElement;
   canPlace: boolean;
@@ -24,7 +24,7 @@ export const craftableItems: CraftableItem[] = [
     name: 'wall',
     height: 48,
     width: 33,
-    diggingTime: 1000,
+    digTime: 1000,
     interactive: false,
     image: new Image(),
     canPlace: true,
@@ -36,7 +36,7 @@ export const craftableItems: CraftableItem[] = [
     name: 'bed',
     height: 40,
     width: 80,
-    diggingTime: 300,
+    digTime: 300,
     interactive: true,
     image: new Image(),
     canPlace: true,
@@ -82,7 +82,9 @@ export const craftableItems: CraftableItem[] = [
         showCollectInfo('days', false, 'Day 1', player.canvas.width / 2, 10);
         player.functionIsExecuted = false;
       }, 8500);
-      initEnemies(mobs[0], 2);
+      setTimeout(() => {
+        initEnemies(mobs[0], player.day * 2);
+      }, 8500);
     },
     type: 'block'
   },
@@ -90,7 +92,7 @@ export const craftableItems: CraftableItem[] = [
     name: 'pickaxe',
     height: 40,
     width: 20,
-    diggingTime: 0,
+    digTime: 0,
     interactive: true,
     image: new Image(),
     canPlace: true,

@@ -105,13 +105,15 @@ function delay(ms: number) {
 }
 export async function destroyObstacle() {
   let indexDoUsuniecia = this.interactiveObstacles.findIndex(
-    (obstacle: Obstacle) => obstacle.x === this.closestItem.x
+    (obstacle: Obstacle) => obstacle.x == this.closestItem.x
   );
+  if (indexDoUsuniecia != -1 && this.canDestroy == true) {
+    this.canDestroy = false;
+    await delay(this.closestItem.digTime / this.strength);
+    this.interactiveObstacles.splice(indexDoUsuniecia, 1);
 
-  if (indexDoUsuniecia !== -1) {
-    setTimeout(() => {
-      this.interactiveObstacles.splice(indexDoUsuniecia, 1);
-    }, this.closestItem.diggingTime / this.strength);
+    await delay(1000);
+    this.canDestroy = true;
   }
 }
 

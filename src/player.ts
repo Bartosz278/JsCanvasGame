@@ -3,8 +3,8 @@ import { interactiveObstacles } from './objects.js';
 import {Item,cursorItems,inventory,isHoldingItem,useItem,setIsHoldingItem,getIsHoldingItem} from './inventory.js';
 import { checkCollectibleProximity } from './utils.js';
 import { craftableItems } from './items-in-crafting.js';
-import { player } from './game.js';
-import { Enemy } from './enemy.js';
+import { closestEnemies, player } from './game.js';
+import { Enemy, enemies } from './enemy.js';
 export interface Obstacle {
   name: string;
   x: number;
@@ -62,6 +62,8 @@ export class Player {
   functionIsExecuted: boolean;
   hp: number;
   getDamage: boolean;
+  closestEnemies: Enemy[];
+  canAttack: boolean;
 
   constructor(
     ctx: CanvasRenderingContext2D,
@@ -116,8 +118,9 @@ export class Player {
     this.isCraftingOpen = false;
     this.day = 1;
     this.functionIsExecuted = false;
-    this.hp = 1;
+    this.hp = 100;
     this.getDamage = false;
+    this.canAttack = true;
   }
 
   drawPlayer(): void {
@@ -210,9 +213,17 @@ export class Player {
     if (keysPressed['d']) {
       newX += this.speed;
     }
+    if (keysPressed['e'] && !this.functionIsExecuted) {
+      if (this.closestItem.interactive == true) {
+        this.closestItem.method();
+        this.functionIsExecuted = true;
+      }
+    }
+    if (keysPressed[' '] && this.canAttack) {
+      this.attack();
+    }
     if (keysPressed['g']) {
-      console.log(interactiveObstacles);
-      console.log(inventory);
+      console.log(this.closestEnemies);
 
       inventory[9] = {
         name: craftableItems[1].name,
@@ -220,7 +231,7 @@ export class Player {
         y: 0,
         height: craftableItems[1].height,
         width: craftableItems[1].width,
-        digTime: craftableItems[1].diggingTime,
+        digTime: craftableItems[1].digTime,
         interactive: craftableItems[1].interactive,
         count: 1,
         canPlace: craftableItems[1].canPlace,
@@ -230,12 +241,7 @@ export class Player {
       };
       console.log(interactiveObstacles);
     }
-    if (keysPressed['e'] && !this.functionIsExecuted) {
-      if (this.closestItem.interactive == true) {
-        this.closestItem.method();
-        this.functionIsExecuted = true;
-      }
-    }
+
     if (
       newY - this.speed <= 0 ||
       newY + this.speed >= this.canvas.height - 30 ||
@@ -249,7 +255,7 @@ export class Player {
       this.y = newY;
     }
 
-    if (keysPressed[' '] && !this.isCollecting) {
+    if (keysPressed['q'] && !this.isCollecting) {
       this.tryCollecting();
     }
   }
@@ -313,5 +319,31 @@ export class Player {
       player.x = newCordX;
       player.y = newCordY;
     }
+  }
+  distanceToEnemies() {
+    enemies.forEach((enemy) => {
+      let distance = Math.sqrt(
+        (this.x + 15 - enemy.x - enemy.width / 2) ** 2 +
+          (this.y + 15 - enemy.y - enemy.height / 2) ** 2
+      );
+      if (
+        distance < 75 &&
+        !closestEnemies.some((enemyItem) => enemyItem === enemy)
+      ) {
+        closestEnemies.push(enemy);
+      }
+    });
+  }
+  delay(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+  attack() {
+    closestEnemies.forEach((enemy) => {
+      this.canAttack = false;
+      enemy.health -= 10;
+      setTimeout(() => {
+        this.canAttack = true;
+      }, 1000);
+    });
   }
 }

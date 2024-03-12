@@ -13,7 +13,7 @@ import { drawCraftingWindow } from './crafting.js';
 import { initEnemies, enemies } from './enemy.js';
 import { mobs } from './mobs.js';
 let canvas = document.getElementById('gameCanvas');
-const ctx = canvas.getContext('2d');
+export const ctx = canvas.getContext('2d');
 const infoBox = document.getElementById('infoBox');
 export const inventoryEl = document.getElementById('inventory');
 const backgroundImage = new Image();
@@ -29,11 +29,12 @@ canvas.width = window.innerWidth * 0.96;
 canvas.height = window.innerHeight * 0.9;
 const playerImg = new Image();
 playerImg.src = 'assets/character.webp';
+export const closestEnemies = [];
 export let player = new Player(ctx, playerImg, canvas, isCollidingWithObstacle, interactiveObstacles, showCollectInfo, collectItem, updateInventory, setIsHoldingItem, setCursorItems, getCursorItems, cursorItems);
 function clearCanvas() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
-initEnemies(mobs[0], 26);
+initEnemies(mobs[0], 2);
 export function updateGame() {
     clearCanvas();
     player.move(keysPressed);
@@ -41,9 +42,7 @@ export function updateGame() {
     enemies.forEach((enemy) => {
         enemy.update();
         enemy.draw();
-        enemies.forEach((enemy) => {
-            checkCollectibleProximity(interactiveObstacles, enemy);
-        });
+        checkCollectibleProximity(interactiveObstacles, enemy);
         if (enemy.moveFunctionIsCalled == false) {
             enemy.randomMove(0.5);
         }
@@ -65,6 +64,7 @@ export function updateGame() {
         gameOverDiv.style.display = 'flex';
         return;
     }
+    player.distanceToEnemies();
     requestAnimationFrame(updateGame);
 }
 let keysPressed = {};

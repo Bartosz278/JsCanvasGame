@@ -83,11 +83,13 @@ function delay(ms) {
 }
 export function destroyObstacle() {
     return __awaiter(this, void 0, void 0, function* () {
-        let indexDoUsuniecia = this.interactiveObstacles.findIndex((obstacle) => obstacle.x === this.closestItem.x);
-        if (indexDoUsuniecia !== -1) {
-            setTimeout(() => {
-                this.interactiveObstacles.splice(indexDoUsuniecia, 1);
-            }, this.closestItem.diggingTime / this.strength);
+        let indexDoUsuniecia = this.interactiveObstacles.findIndex((obstacle) => obstacle.x == this.closestItem.x);
+        if (indexDoUsuniecia != -1 && this.canDestroy == true) {
+            this.canDestroy = false;
+            yield delay(this.closestItem.digTime / this.strength);
+            this.interactiveObstacles.splice(indexDoUsuniecia, 1);
+            yield delay(1000);
+            this.canDestroy = true;
         }
     });
 }
