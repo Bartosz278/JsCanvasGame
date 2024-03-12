@@ -2,6 +2,8 @@ import { blocks } from './blocks.js';
 import { player } from './game.js';
 import { createObstacles, interactiveObstacles } from './objects.js';
 import { showCollectInfo } from './utils.js';
+import { initEnemies } from './enemy.js';
+import { mobs } from './mobs.js';
 
 export interface CraftableItem {
   name: string;
@@ -41,6 +43,7 @@ export const craftableItems: CraftableItem[] = [
     canCollect: true,
     requiredItems: [{ name: 'tree', count: 4 }],
     method: () => {
+      player.day++;
       player.functionIsExecuted = true;
       document.getElementById('night').style.opacity = '100%';
       document.getElementById('night2').style.opacity = '60%';
@@ -79,6 +82,7 @@ export const craftableItems: CraftableItem[] = [
         showCollectInfo('days', false, 'Day 1', player.canvas.width / 2, 10);
         player.functionIsExecuted = false;
       }, 8500);
+      initEnemies(mobs[0], 2);
     },
     type: 'block'
   },

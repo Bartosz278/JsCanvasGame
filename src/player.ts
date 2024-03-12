@@ -3,6 +3,8 @@ import { interactiveObstacles } from './objects.js';
 import {Item,cursorItems,inventory,isHoldingItem,useItem,setIsHoldingItem,getIsHoldingItem} from './inventory.js';
 import { checkCollectibleProximity } from './utils.js';
 import { craftableItems } from './items-in-crafting.js';
+import { player } from './game.js';
+import { Enemy } from './enemy.js';
 export interface Obstacle {
   name: string;
   x: number;
@@ -58,6 +60,8 @@ export class Player {
   closestItem: any;
   day: number;
   functionIsExecuted: boolean;
+  hp: number;
+  getDamage: boolean;
 
   constructor(
     ctx: CanvasRenderingContext2D,
@@ -112,6 +116,8 @@ export class Player {
     this.isCraftingOpen = false;
     this.day = 1;
     this.functionIsExecuted = false;
+    this.hp = 1;
+    this.getDamage = false;
   }
 
   drawPlayer(): void {
@@ -141,7 +147,11 @@ export class Player {
       Math.pow(this.mouseX - this.x - 15, 2) +
         Math.pow(this.mouseY - this.y - 15, 2)
     );
-    if (this.isHoldingItem == true && cursorItems.canPlace == true) {
+    if (
+      this.isHoldingItem == true &&
+      cursorItems.canPlace == true &&
+      cursorItems != null
+    ) {
       this.cursorItems = this.getCursorItems();
       this.cursorImage.src = `assets/eqIcons/${this.cursorItems.name}Eq.webp`;
       if (distance <= 100 && this.getCursorItems().count > 0) {
@@ -201,6 +211,9 @@ export class Player {
       newX += this.speed;
     }
     if (keysPressed['g']) {
+      console.log(interactiveObstacles);
+      console.log(inventory);
+
       inventory[9] = {
         name: craftableItems[1].name,
         x: 0,
@@ -220,7 +233,6 @@ export class Player {
     if (keysPressed['e'] && !this.functionIsExecuted) {
       if (this.closestItem.interactive == true) {
         this.closestItem.method();
-        this.day++;
         this.functionIsExecuted = true;
       }
     }
@@ -264,6 +276,42 @@ export class Player {
         }, obstacle.digTime);
         break;
       }
+    }
+  }
+  getDamageMove(enemyX: number, enemyY: number) {
+    let newCordX = player.x;
+    let newCordY = player.y;
+    if (player.getDamage) {
+      if (enemyX > player.x + 15) {
+        newCordX -= 8;
+      }
+      if (enemyX < player.x + 15) {
+        newCordX += 8;
+      }
+      if (enemyY > player.x + 15) {
+        newCordY -= 8;
+      }
+      if (enemyX < player.x + 15) {
+        newCordY += 8;
+      }
+    }
+    if (
+      newCordY - this.speed <= 0 ||
+      newCordY + this.speed >= this.canvas.height - 30 ||
+      newCordX - this.speed <= 0 ||
+      newCordX + this.speed >= this.canvas.width - 30
+    ) {
+      return;
+    }
+    if (
+      !this.isCollidingWithObstacle(
+        this.interactiveObstacles,
+        newCordX,
+        newCordY
+      )
+    ) {
+      player.x = newCordX;
+      player.y = newCordY;
     }
   }
 }

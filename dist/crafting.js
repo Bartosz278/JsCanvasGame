@@ -51,7 +51,8 @@ function addItemToInventory(craftableItem) {
                     interactive: craftableItem.interactive,
                     count: 1,
                     canPlace: craftableItem.canPlace,
-                    method: craftableItem.method
+                    method: craftableItem.method,
+                    type: craftableItem.type
                 };
                 added = true;
                 break;
