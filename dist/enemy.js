@@ -81,9 +81,9 @@ export class Enemy {
                 this.destroyObstacle();
             }
         }
-        player.ctx.fillStyle = 'red';
-        player.ctx.fillRect(this.x, this.y - 12, this.health / 2.5, 5);
-        player.ctx.stroke();
+        // player.ctx.fillStyle = 'red';
+        // player.ctx.fillRect(this.x, this.y - 12, this.health / 2.5, 5);
+        // player.ctx.stroke();
     }
     takeDamage(amount) {
         this.health -= amount;

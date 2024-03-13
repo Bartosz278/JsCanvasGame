@@ -2,15 +2,13 @@ import { Player } from './player.js';
 //prettier-ignore
 import {interactiveObstacles,createObstacles,drawObstacles} from './objects.js';
 //prettier-ignore
-import {collectItem,updateInventory,useItem,isHoldingItem,cursorItems,inventory,setIsHoldingItem,setCursorItems,getCursorItems} from './inventory.js';
+import {collectItem,updateInventory,useItem,isHoldingItem,cursorItems,inventory,setIsHoldingItem,setCursorItems,getCursorItems, getIsHoldingItem} from './inventory.js';
 //prettier-ignore
 import {checkCollectibleProximity,showCollectInfo,isCollidingWithObstacle, dragElement, updateHP, startNewGame} from './utils.js';
 //prettier-ignore
 import { Block, blocks } from './blocks.js';
 //prettier-ignore
 import { drawCraftingWindow, moveWindow } from './crafting.js';
-//prettier-ignore
-// import { enemies } from './mobs.js';
 //prettier-ignore
 import { Enemy, initEnemies, enemies } from './enemy.js';
 import { mobs } from './mobs.js';
@@ -50,6 +48,7 @@ export let player: Player = new Player(
   collectItem,
   updateInventory,
   setIsHoldingItem,
+  getIsHoldingItem,
   setCursorItems,
   getCursorItems,
   cursorItems
@@ -59,7 +58,7 @@ function clearCanvas(): void {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
-initEnemies(mobs[0], 2);
+// initEnemies(mobs[0], 2);
 export function updateGame(): void {
   clearCanvas();
   player.move(keysPressed);
@@ -72,10 +71,11 @@ export function updateGame(): void {
       enemy.randomMove(0.5);
     }
   });
-  player.drawBuildRange();
-  player.isHoldingItem = isHoldingItem;
+
+  player.isHoldingItem = getIsHoldingItem();
   player.cursorItems = getCursorItems();
   player.closestItem = checkCollectibleProximity;
+  player.drawBuildRange();
   drawObstacles(ctx);
   drawCraftingWindow(player, craftingWindow);
   checkCollectibleProximity(interactiveObstacles, player);
@@ -89,9 +89,23 @@ export function updateGame(): void {
     gameOverDiv.style.display = 'flex';
     return;
   }
-  player.distanceToEnemies();
+  // player.distanceToEnemies();
 
   requestAnimationFrame(updateGame);
+}
+
+function draw(x, y) {
+  player.ctx.beginPath();
+  player.ctx.moveTo(player.x, player.y);
+  player.ctx.bezierCurveTo(
+    x + 100,
+    y + 100,
+    x + 100,
+    x + 100,
+    x + 100,
+    x + 100
+  );
+  player.ctx.stroke();
 }
 
 let keysPressed = {};
