@@ -58,7 +58,7 @@ function clearCanvas(): void {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
-// initEnemies(mobs[0], 2);
+initEnemies(mobs[0], 2);
 export function updateGame(): void {
   clearCanvas();
   player.move(keysPressed);
@@ -89,23 +89,9 @@ export function updateGame(): void {
     gameOverDiv.style.display = 'flex';
     return;
   }
-  // player.distanceToEnemies();
+  player.distanceToEnemies();
 
   requestAnimationFrame(updateGame);
-}
-
-function draw(x, y) {
-  player.ctx.beginPath();
-  player.ctx.moveTo(player.x, player.y);
-  player.ctx.bezierCurveTo(
-    x + 100,
-    y + 100,
-    x + 100,
-    x + 100,
-    x + 100,
-    x + 100
-  );
-  player.ctx.stroke();
 }
 
 let keysPressed = {};

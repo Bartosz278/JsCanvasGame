@@ -8,7 +8,8 @@ import { checkCollectibleProximity, showCollectInfo, isCollidingWithObstacle, dr
 //prettier-ignore
 import { drawCraftingWindow } from './crafting.js';
 //prettier-ignore
-import { enemies } from './enemy.js';
+import { initEnemies, enemies } from './enemy.js';
+import { mobs } from './mobs.js';
 let canvas = document.getElementById('gameCanvas');
 export const ctx = canvas.getContext('2d');
 const infoBox = document.getElementById('infoBox');
@@ -31,7 +32,7 @@ export let player = new Player(ctx, playerImg, canvas, isCollidingWithObstacle, 
 function clearCanvas() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
-// initEnemies(mobs[0], 2);
+initEnemies(mobs[0], 2);
 export function updateGame() {
     clearCanvas();
     player.move(keysPressed);
@@ -61,14 +62,8 @@ export function updateGame() {
         gameOverDiv.style.display = 'flex';
         return;
     }
-    // player.distanceToEnemies();
+    player.distanceToEnemies();
     requestAnimationFrame(updateGame);
-}
-function draw(x, y) {
-    player.ctx.beginPath();
-    player.ctx.moveTo(player.x, player.y);
-    player.ctx.bezierCurveTo(x + 100, y + 100, x + 100, x + 100, x + 100, x + 100);
-    player.ctx.stroke();
 }
 let keysPressed = {};
 document.addEventListener('keydown', (event) => {

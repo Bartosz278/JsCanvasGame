@@ -227,6 +227,10 @@ export class Player {
         player.ctx.fillRect(this.x + 30, this.y + 15, 75, 5);
         player.ctx.fillRect(this.x - 75, this.y + 15, 75, 5);
         player.ctx.stroke();
+        player.ctx.fillStyle = 'gray';
+        player.ctx.fillRect(this.x + 15, this.y - 75, 5, 75);
+        player.ctx.fillRect(this.x + 15, this.y + 30, 5, 75);
+        player.ctx.stroke();
         setTimeout(() => {
             this.canAttack = true;
         }, 1000);
